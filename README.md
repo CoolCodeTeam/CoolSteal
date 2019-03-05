@@ -1,0 +1,4 @@
+# CoolSteal
+
+  
+ Code plagiasm checker.
