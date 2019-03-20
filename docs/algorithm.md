@@ -18,5 +18,5 @@
 	
 
 When you thinking
-![img](https://github.githubassets.com/images/icons/emoji/unicode/1f914.png)
+:thinking:
 

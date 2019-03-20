@@ -26,7 +26,7 @@
 
 * Схематичное описание работы:
  ![](https://www.lucidchart.com/publicSegments/view/9cc237a0-e363-40c9-93e2-d7cccc565733/image.png)
-    #### Более подробное описание работы алгоритма можно найти [тут](##).
+    #### Более подробное описание работы алгоритма можно найти [тут](https://github.com/CoolCodeTeam/CoolSteal/blob/master/docs/algorithm.md).
 
 
 
