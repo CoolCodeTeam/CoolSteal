@@ -1,0 +1,8 @@
+//
+// Created by anton on 19.04.19.
+//
+
+#ifndef COOLSTEALNIGHT_TOKENTYPE_H
+#define COOLSTEALNIGHT_TOKENTYPE_H
+
+#endif //COOLSTEALNIGHT_TOKENTYPE_H
