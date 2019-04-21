@@ -7,6 +7,21 @@
 
 
 class PlagiasmResult {
+public:
+    PlagiasmResult(int shingleResult, int levenstainResult, int operatorPlagiasmResult, int mostSimilarProgrammId);
+
+    int getShingleResult() const;
+
+    int getLevenstainResult() const;
+
+    int getOperatorPlagiasmResult() const;
+
+
+private:
+    int shingleResult;
+    int levenstainResult;
+    int operatorPlagiasmResult;
+
 
 };
 

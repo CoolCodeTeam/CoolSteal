@@ -10,11 +10,11 @@
 #define COOLSTEALNIGHT_PROGRAMM_H
 
 
-class Programm{
+class Program{
 public:
-    Programm(const std::string &sourseCode);
+    Program(const std::string &sourseCode);
 
-    Programm();
+    Program();
 
     long getId() const;
 
@@ -61,72 +61,6 @@ private:
 
 };
 
-Programm::Programm(const std::string &sourseCode) : sourseCode(sourseCode) {}
 
-Programm::Programm() {}
-
-long Programm::getId() const {
-    return id;
-}
-
-const std::string &Programm::getName() const {
-    return name;
-}
-
-const std::string &Programm::getSourseCode() const {
-    return sourseCode;
-}
-
-const std::string &Programm::getNormalizeCode() const {
-    return normalizeCode;
-}
-
-const std::set<std::string> &Programm::getShingleSet() const {
-    return shingleSet;
-}
-
-const std::vector<std::string> &Programm::getTokenSet() const {
-    return tokenSet;
-}
-
-long Programm::getOwnerId() const {
-    return ownerId;
-}
-
-const std::string &Programm::getLang() const {
-    return lang;
-}
-
-void Programm::setId(long id) {
-    Programm::id = id;
-}
-
-void Programm::setName(const std::string &name) {
-    Programm::name = name;
-}
-
-void Programm::setSourseCode(const std::string &sourseCode) {
-    Programm::sourseCode = sourseCode;
-}
-
-void Programm::setNormalizeCode(const std::string &normalizeCode) {
-    Programm::normalizeCode = normalizeCode;
-}
-
-void Programm::setShingleSet(const std::set<std::string> &shingleSet) {
-    Programm::shingleSet = shingleSet;
-}
-
-void Programm::setTokenSet(const std::vector<std::string> &tokenSet) {
-    Programm::tokenSet = tokenSet;
-}
-
-void Programm::setOwnerId(long ownerId) {
-    Programm::ownerId = ownerId;
-}
-
-void Programm::setLang(const std::string &lang) {
-    Programm::lang = lang;
-}
 
 #endif //COOLSTEALNIGHT_PROGRAMM_H
