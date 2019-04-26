@@ -7,17 +7,17 @@
 Token::Token(TokenType type, const std::string &data) : type(type), data(data) {}
 
 TokenType Token::getType() const {
-    return type;
+  return type;
 }
 
 void Token::setType(TokenType type) {
-    Token::type = type;
+  Token::type = type;
 }
 
 const std::string &Token::getData() const {
-    return data;
+  return data;
 }
 
 void Token::setData(const std::string &data) {
-    Token::data = data;
+  Token::data = data;
 }

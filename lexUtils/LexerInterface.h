@@ -7,8 +7,8 @@
 #include "../models/Token.h"
 #ifndef COOLSTEALNIGHT_LEXERINTERFACE_H
 #define COOLSTEALNIGHT_LEXERINTERFACE_H
-class LexerInterFace{
-public:
-    virtual std::vector getTokenSet(const Program &sourseProgram)=0;
+class LexerInterFace {
+ public:
+  virtual std::vector getTokenSet(const Program &sourseProgram)=0;
 };
 #endif //COOLSTEALNIGHT_LEXERINTERFACE_H

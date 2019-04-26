@@ -5,23 +5,21 @@
 #ifndef COOLSTEALNIGHT_DBCOMMAND_H
 #define COOLSTEALNIGHT_DBCOMMAND_H
 
-
 #include <string>
 
 class DBCommand {
-public:
-    DBCommand(const std::string &Command);
+ public:
+  DBCommand(const std::string &Command);
 
-    DBCommand();
+  DBCommand();
 
-    const std::string &getCommand() const;
+  const std::string &getCommand() const;
 
-    void setCommand(const std::string &Command);
+  void setCommand(const std::string &Command);
 
-private:
-    std::string Command;
+ private:
+  std::string Command;
 
 };
-
 
 #endif //COOLSTEALNIGHT_DBCOMMAND_H

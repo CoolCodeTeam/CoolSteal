@@ -7,9 +7,9 @@
 
 #include <string>
 #include "../models/Program.h"
-class NormalizatorInterface{
-public:
-private:
-    virtual std::string normalize(const Program &program)=0;
+class NormalizatorInterface {
+ public:
+ private:
+  virtual std::string normalize(const Program &program)=0;
 };
 #endif //COOLSTEALNIGHT_NORMALIZATORINTERFACE_H

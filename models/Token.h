@@ -7,23 +7,21 @@
 #ifndef COOLSTEALNIGHT_TOKEN_H
 #define COOLSTEALNIGHT_TOKEN_H
 
-
 class Token {
-public:
-    Token(TokenType type, const std::string &data);
+ public:
+  Token(TokenType type, const std::string &data);
 
-    TokenType getType() const;
+  TokenType getType() const;
 
-    void setType(TokenType type);
+  void setType(TokenType type);
 
-    const std::string &getData() const;
+  const std::string &getData() const;
 
-    void setData(const std::string &data);
+  void setData(const std::string &data);
 
-private:
-    TokenType type;
-    std::string data;
+ private:
+  TokenType type;
+  std::string data;
 };
-
 
 #endif //COOLSTEALNIGHT_TOKEN_H

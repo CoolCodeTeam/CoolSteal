@@ -71,3 +71,42 @@ void Program::setOwnerId(long ownerId) {
 void Program::setLang(const std::string &lang) {
     Program::lang = lang;
 }
+
+Program Program::fromJSON(const rapidjson::Value &doc) {
+//    if(!doc.IsArray())
+//        throw std::runtime_error("document is not an array");
+//
+//    if(doc.Size() != 3)
+//        throw std::runtime_error("wrong array size");
+
+    long ownerId = doc["id"].GetInt();
+    std::string sourseCode = doc["sourseCode"].GetString();
+    std::string lang = doc["lang"].GetString();
+
+    return Program(sourseCode,ownerId,lang);
+
+
+
+}
+
+Program::Program(const std::string &sourseCode, long ownerId, const std::string &lang) : sourseCode(sourseCode),
+                                                                                         ownerId(ownerId), lang(lang) {}
+
+rapidjson::Document Program::toJSON() {
+    rapidjson::Value json_val;
+    rapidjson::Document doc;
+    auto &allocator = doc.GetAllocator();
+
+    doc.SetObject();
+
+    json_val.SetUint64(ownerId);
+    doc.AddMember("id", json_val, allocator);
+
+    json_val.SetString(sourseCode.c_str(), allocator);
+    doc.AddMember("sourseCode", json_val, allocator);
+
+    json_val.SetString(lang.c_str(), allocator);
+    doc.AddMember("lang", json_val, allocator);
+
+    return doc;
+}

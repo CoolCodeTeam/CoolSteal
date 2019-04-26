@@ -5,6 +5,11 @@
 #include <iostream>
 #include <set>
 #include <vector>
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/reader.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/stringbuffer.h"
 
 #ifndef COOLSTEALNIGHT_PROGRAMM_H
 #define COOLSTEALNIGHT_PROGRAMM_H
@@ -12,6 +17,8 @@
 
 class Program{
 public:
+    Program(const std::string &sourseCode, long ownerId, const std::string &lang);
+
     Program(const std::string &sourseCode);
 
     Program();
@@ -47,6 +54,11 @@ public:
     void setOwnerId(long ownerId);
 
     void setLang(const std::string &lang);
+
+    static Program fromJSON(const rapidjson::Value& doc);
+
+  rapidjson::Document toJSON();
+
 
 private:
     long id;

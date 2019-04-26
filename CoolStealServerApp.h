@@ -22,20 +22,18 @@
 #include <Poco/Util/ServerApplication.h>
 #include "Router.h"
 
-
 using namespace Poco;
 using namespace Poco::Net;
 using namespace Poco::Util;
 using namespace std;
 
-
 class CoolStealServerApp : public ServerApplication {
-public:
+ public:
 
-protected:
-    int main(const vector<string> &);
+ protected:
+  int main(const vector<string> &);
 
-private:
-    Router router;
+ private:
+  Router router;
 
 };
