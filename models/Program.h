@@ -9,58 +9,72 @@
 #ifndef COOLSTEALNIGHT_PROGRAMM_H
 #define COOLSTEALNIGHT_PROGRAMM_H
 
-
-class Program{
+class Program {
 public:
-    Program(const std::string &sourseCode);
+    Program(const std::string& sourseCode);
 
     Program();
 
-    long getId() const;
+    long
+    getId() const;
 
-    const std::string &getName() const;
+    const std::string&
+    getName() const;
 
-    const std::string &getSourseCode() const;
+    const std::string&
+    getSourseCode() const;
 
-    const std::string &getNormalizeCode() const;
+    const std::string&
+    getNormalizeCode() const;
 
-    const std::set<std::string> &getShingleSet() const;
+    const std::set<std::string>&
+    getShingleSet() const;
 
-    const std::vector<std::string> &getTokenSet() const;
+    const std::vector<std::string>&
+    getTokenSet() const;
 
-    long getOwnerId() const;
+    long
+    getOwnerId() const;
 
-    const std::string &getLang() const;
+    const std::string&
+    getLang() const;
 
-    void setId(long id);
+    void
+    setId(long id);
 
-    void setName(const std::string &name);
+    void
+    setName(const std::string& name);
 
-    void setSourseCode(const std::string &sourseCode);
+    void
+    setSourseCode(const std::string& sourseCode);
 
-    void setNormalizeCode(const std::string &normalizeCode);
+    void
+    setNormalizeCode(const std::string& normalizeCode);
 
-    void setShingleSet(const std::set<std::string> &shingleSet);
+    void
+    setShingleSet(const std::set<std::string>& shingleSet);
 
-    void setTokenSet(const std::vector<std::string> &tokenSet);
+    void
+    setTokenSet(const std::vector<std::string>& tokenSet);
 
-    void setOwnerId(long ownerId);
+    void
+    setOwnerId(long ownerId);
 
-    void setLang(const std::string &lang);
+    void
+    setLang(const std::string& lang);
 
 private:
     long id;
+    long ownerId;
     std::string name;
+    std::string lang;
     std::string sourseCode;
     std::string normalizeCode;
-    std::set<std::string> shingleSet;
     std::vector<std::string> tokenSet;
-    long ownerId;
     //Date date
-    std::string lang;
+
+    std::set<std::string> shingleSet;
 
 };
-
-
 
 #endif //COOLSTEALNIGHT_PROGRAMM_H

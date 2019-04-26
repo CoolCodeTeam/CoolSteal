@@ -5,6 +5,7 @@
 #include "../models/Program.h"
 #include "../models/TokenType.h"
 #include "../models/Token.h"
+
 #ifndef COOLSTEALNIGHT_LEXERINTERFACE_H
 #define COOLSTEALNIGHT_LEXERINTERFACE_H
 class LexerInterFace{
