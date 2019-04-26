@@ -27,14 +27,6 @@ public:
         StringTokenizer tokenizer(uri.getPath(), "/", StringTokenizer::TOK_TRIM);
         HTMLForm form(req,req.stream());
         cerr<<"Content type: "<<req.getContentType()<<endl;
-//        std::string json = "{ \"test\" : \"mem\" }";
-//        istream &stream =req.stream();
-//        Poco::JSON::Parser parser;
-//        Poco::Dynamic:: Var result = parser.parse(json);
-//        JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
-//        cerr<<"Content type: "<<object->get("test").convert<std::string>()<<endl;
-//        cerr<<"Content type: "<<object<<endl;
-//        cerr<<"Content type: "<<result.toString()<<endl;
         if(!method.compare(POST))
         {
             if (req.getURI().find(SEND_PROGRAM)!=std::string::npos){
