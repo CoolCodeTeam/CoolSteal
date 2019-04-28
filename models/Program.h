@@ -21,7 +21,9 @@ public:
 
     Program(const std::string &sourseCode);
 
-    Program();
+  friend std::ostream &operator<<(std::ostream &os, const Program &program);
+
+  Program();
 
     long getId() const;
 

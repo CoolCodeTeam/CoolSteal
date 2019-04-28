@@ -30,10 +30,11 @@ using namespace std;
 class CoolStealServerApp : public ServerApplication {
  public:
 
+
  protected:
   int main(const vector<string> &);
 
  private:
-  Router router;
+
 
 };

@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
+#include "rapidjson/stringbuffer.h"
+#include <rapidjson/writer.h>
 #include "models/Program.h"
+#include "models/PlagiasmResult.h"
 
 #include "CoolStealServerApp.h"
 
@@ -12,7 +15,7 @@
 #define SEND_PROGRAM "/SendProgram"
 #define SEND_Metric "/SendMetric"
 
-class CTodoHandler : public HTTPRequestHandler {
+class PlagiasmHandler : public HTTPRequestHandler {
  public:
   void handleRequest(HTTPServerRequest &req, HTTPServerResponse &resp) {
     URI uri(req.getURI());
@@ -20,42 +23,34 @@ class CTodoHandler : public HTTPRequestHandler {
 
     cerr << "URI: " << uri.toString() << endl;
     cerr << "Method: " << req.getMethod() << endl;
-
-    StringTokenizer tokenizer(uri.getPath(), "/", StringTokenizer::TOK_TRIM);
-    HTMLForm form(req, req.stream());
     cerr << "Content type: " << req.getContentType() << endl;
-    //        std::string json = "{ \"test\" : \"mem\" }";
 
 
     if (!method.compare(POST)) {
-      std::string jsonTest = "{ \"id\": 0, \"sourseCode\": \"string\",\"lang\": \"string\" }";
       istream &stream = req.stream();
-      /// getline(stream,jsonTest);
-//            int len = req.getContentLength();
-//
-//            char* buffer = new char[len];
-//            stream.getline(buffer,len);
+      int len = req.getContentLength();
 
-//            Poco::Dynamic:: Var result = parser.parse(jsonTest);
-//            JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
-//            cerr<<"Content type: "<<object->get("test").convert<std::string>()<<endl;
-//            cerr<<"Content type: "<<object<<endl;
-      cerr << "Json: " << jsonTest << endl;
-      //std::string json = result.toString();
-
-
-
+      char *buffer = new char[len];
+      stream.read(buffer, len);
+      cerr << "Json: " << buffer << endl;
+      rapidjson::Document doc;
+      doc.Parse(buffer);
       if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
 
         Program programmFromReq;
-        rapidjson::Document doc;
-        doc.Parse(jsonTest.c_str());
         programmFromReq = programmFromReq.fromJSON(doc);
-        // TODO: SEND PROGRAM TO ROUTER
-        cerr << "Send program to check";
+        cerr << "Send program to check :" << programmFromReq << endl;
+        PlagiasmResult result = router.checkProgram(programmFromReq);
+        resp.setStatus(HTTPResponse::HTTP_OK);
+        resp.setContentType(APP_JSON);
+        ostream &out = resp.send();
+        out<<getStringFromJson(result.toJSON());
+        out.flush();
+
       } else {
-        // TODO: JSON PARSER
-        cerr << "SendMetric";
+        PlagiasmResult metricFromReq;
+        metricFromReq = metricFromReq.fromJson(doc);
+        cerr << "SendMetric :" << metricFromReq << endl;
       }
 
     } else if (!method.compare(GET)) {
@@ -67,14 +62,25 @@ class CTodoHandler : public HTTPRequestHandler {
         resp.setStatus(HTTPResponse::HTTP_OK);
         resp.setContentType(APP_JSON);
         ostream &out = resp.send();
-        //TODO: out<<router.getNewId<<endl;
-
+        out<<router.getNewId();
         out.flush();
       }
     }
 
   }
+ private:
+  Router router;
+  const char* getStringFromJson(rapidjson::Document doc);
 };
+
+const char *PlagiasmHandler::getStringFromJson(rapidjson::Document doc) {
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  doc.Accept(writer);
+
+// Output {"project":"rapidjson","stars":11}
+  return buffer.GetString();
+}
 
 #include <iostream>
 #include <fstream>
@@ -83,7 +89,7 @@ class CTodoHandler : public HTTPRequestHandler {
 class TodoRequestHandlerFactory : public HTTPRequestHandlerFactory {
  public:
   virtual HTTPRequestHandler *createRequestHandler(const HTTPServerRequest &request) {
-    return new CTodoHandler;
+    return new PlagiasmHandler;
   }
 };
 
@@ -102,6 +108,7 @@ int CoolStealServerApp::main(const vector<string> &) {
 
   cerr << "Shutting down..." << endl;
   s.stop();
+
 
   return Application::EXIT_OK;
 }

@@ -73,14 +73,10 @@ void Program::setLang(const std::string &lang) {
 }
 
 Program Program::fromJSON(const rapidjson::Value &doc) {
-//    if(!doc.IsArray())
-//        throw std::runtime_error("document is not an array");
-//
-//    if(doc.Size() != 3)
-//        throw std::runtime_error("wrong array size");
 
-    long ownerId = doc["id"].GetInt();
+
     std::string sourseCode = doc["sourseCode"].GetString();
+    int ownerId = doc["id"].GetInt();
     std::string lang = doc["lang"].GetString();
 
     return Program(sourseCode,ownerId,lang);
@@ -109,4 +105,8 @@ rapidjson::Document Program::toJSON() {
     doc.AddMember("lang", json_val, allocator);
 
     return doc;
+}
+std::ostream &operator<<(std::ostream &os, const Program &program) {
+  os << "sourseCode: " << program.sourseCode << " ownerId: " << program.ownerId << " lang: " << program.lang;
+  return os;
 }
