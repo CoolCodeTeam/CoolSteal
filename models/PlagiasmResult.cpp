@@ -79,4 +79,7 @@ std::ostream &operator<<(std::ostream &os, const PlagiasmResult &result) {
      << " mostSimilarProgrammId: " << result.mostSimilarProgrammId;
   return os;
 }
+float PlagiasmResult::getGeneralSimilarity() {
+  return (shingleResult+levenstainResult+operatorPlagiasmResult)/3;
+}
 

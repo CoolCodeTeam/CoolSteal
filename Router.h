@@ -13,7 +13,7 @@ class Router {
   PlagiasmResult checkProgram(const Program &program);
   int getNewId();
  private:
-   //PlagiasmChecker checker;
+   PlagiasmChecker checker;
 };
 
 

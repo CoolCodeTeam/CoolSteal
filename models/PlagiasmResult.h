@@ -31,6 +31,7 @@ class PlagiasmResult {
   void setMostSimilarProgrammId(int mostSimilarProgrammId);
   rapidjson::Document toJSON();
   static PlagiasmResult fromJson(const rapidjson::Value& doc);
+  float getGeneralSimilarity();
 
   friend std::ostream &operator<<(std::ostream &os, const PlagiasmResult &result);
 
