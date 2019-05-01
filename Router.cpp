@@ -6,9 +6,12 @@
 Router::Router() {
 ;
 }
-PlagiasmResult Router::checkProgram(const Program &program) {
-  return PlagiasmResult(0,0,0,0,0);
+PlagiasmResult Router::checkProgram(Program &program) {
+  return checker.checkProgramWithDB(program);
 }
 int Router::getNewId() {
   return -1;
+}
+PlagiasmResult Router::comparePrograms(Program &firstProgram, Program &secondProgram) {
+  return checker.comparePrograms(firstProgram,secondProgram);
 }

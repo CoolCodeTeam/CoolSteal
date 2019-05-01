@@ -16,6 +16,7 @@ class PlagiasmResult {
  public:
   PlagiasmResult();
   PlagiasmResult(int Uid,int shingleResult, int levenstainResult, int operatorPlagiasmResult, int mostSimilarProgrammId);
+  PlagiasmResult(int shingleResult, int levenstainResult, int operatorPlagiasmResult);
 
   int getShingleResult() const;
 

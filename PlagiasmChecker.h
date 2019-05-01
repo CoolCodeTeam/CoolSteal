@@ -7,13 +7,14 @@
 
 #include "models/PlagiasmResult.h"
 #include "models/Program.h"
+#include "methods/CheckLibary.h"
 class PlagiasmChecker {
  public:
   PlagiasmResult checkProgramWithDB(Program &program);
- private:
-   PlagiasmLibary plagiasmLibary;
-   PlagiasmLexer lex;
-   DBmanager DBmanager;
+  PlagiasmResult comparePrograms(Program &firstProgram, Program &secondProgram);
+  CheckLibary checkLibary;
+//   PlagiasmLexer lex;
+//   DBmanager DBmanager;
 };
 
 #endif //COOLSTEAL_PLAGIASMCHECKER_H

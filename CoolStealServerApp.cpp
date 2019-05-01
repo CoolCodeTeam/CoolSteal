@@ -13,6 +13,7 @@
 #define SEND_METRIC "/SendMetric"
 #define GET_METRIC "/GetMetric"
 #define SEND_PROGRAM "/SendProgram"
+#define COMPARE "/Compare"
 #define SEND_Metric "/SendMetric"
 
 class PlagiasmHandler : public HTTPRequestHandler {
@@ -44,8 +45,25 @@ class PlagiasmHandler : public HTTPRequestHandler {
         resp.setStatus(HTTPResponse::HTTP_OK);
         resp.setContentType(APP_JSON);
         ostream &out = resp.send();
-        out<<getStringFromJson(result.toJSON());
+        out << getStringFromJson(result.toJSON());
         out.flush();
+      } else if(req.getURI().find(COMPARE) != std::string::npos){
+        Program firstProgramFromReq;
+        Program secondProgramFromReq;
+        const rapidjson::Value& a = doc["programs"];
+        assert(a.IsArray());
+        firstProgramFromReq = firstProgramFromReq.fromJSON(a[0]);
+        secondProgramFromReq = secondProgramFromReq.fromJSON(a[1]);
+        cerr << "Send programs to check :" << firstProgramFromReq << endl;
+        cerr <<  secondProgramFromReq << endl;
+        PlagiasmResult result = router.comparePrograms(firstProgramFromReq,secondProgramFromReq);
+        cerr<<"result :"<<getStringFromJson(result.toJSON())<<endl;
+        resp.setStatus(HTTPResponse::HTTP_OK);
+        resp.setContentType(APP_JSON);
+        ostream &out = resp.send();
+        out << getStringFromJson(result.toJSON());
+        out.flush();
+
 
       } else {
         PlagiasmResult metricFromReq;
@@ -70,16 +88,17 @@ class PlagiasmHandler : public HTTPRequestHandler {
   }
  private:
   Router router;
-  const char* getStringFromJson(rapidjson::Document doc);
+  std::string getStringFromJson(rapidjson::Document doc);
 };
 
-const char *PlagiasmHandler::getStringFromJson(rapidjson::Document doc) {
+std::string PlagiasmHandler::getStringFromJson(rapidjson::Document doc) {
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
   doc.Accept(writer);
 
 // Output {"project":"rapidjson","stars":11}
-  return buffer.GetString();
+  std::string s(buffer.GetString(), buffer.GetSize());
+  return s;
 }
 
 #include <iostream>

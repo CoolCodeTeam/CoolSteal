@@ -82,4 +82,6 @@ std::ostream &operator<<(std::ostream &os, const PlagiasmResult &result) {
 float PlagiasmResult::getGeneralSimilarity() {
   return (shingleResult+levenstainResult+operatorPlagiasmResult)/3;
 }
+PlagiasmResult::PlagiasmResult(int shingleResult, int levenstainResult, int operatorPlagiasmResult) :id(0),mostSimilarProgrammId(0), shingleResult(
+    shingleResult), levenstainResult(levenstainResult), operatorPlagiasmResult(operatorPlagiasmResult) {}
 

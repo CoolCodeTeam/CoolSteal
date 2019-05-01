@@ -7,11 +7,13 @@
 
 #include "models/Program.h"
 #include "models/PlagiasmResult.h"
+#include "PlagiasmChecker.h"
 class Router {
  public:
   Router();
-  PlagiasmResult checkProgram(const Program &program);
+  PlagiasmResult checkProgram(Program &program);
   int getNewId();
+  PlagiasmResult comparePrograms(Program &firstProgram, Program &secondProgram);
  private:
    PlagiasmChecker checker;
 };

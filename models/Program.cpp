@@ -28,7 +28,7 @@ const std::set<std::string> &Program::getShingleSet() const {
     return shingleSet;
 }
 
-const std::vector<std::string> &Program::getTokenSet() const {
+const std::vector<char> &Program::getTokenSet() const {
     return tokenSet;
 }
 
@@ -60,7 +60,7 @@ void Program::setShingleSet(const std::set<std::string> &shingleSet) {
     Program::shingleSet = shingleSet;
 }
 
-void Program::setTokenSet(const std::vector<std::string> &tokenSet) {
+void Program::setTokenSet(const std::vector<char> &tokenSet) {
     Program::tokenSet = tokenSet;
 }
 

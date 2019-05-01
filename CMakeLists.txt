@@ -3,7 +3,7 @@ project(CoolSteal)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(CoolSteal main.cpp models/Program.h models/Program.cpp models/PlagiasmResult.cpp models/PlagiasmResult.h models/Token.cpp models/Token.h models/TokenType.h models/DBCommand.cpp models/DBCommand.h methods/CheckLibary.h lexUtils/LexerInterface.h Normalizator/NormalizatorInterface.h CoolStealServerApp.cpp CoolStealServerApp.h Router.cpp Router.h PlagiasmChecker.cpp PlagiasmChecker.h)
+add_executable(CoolSteal main.cpp models/Program.h models/Program.cpp models/PlagiasmResult.cpp models/PlagiasmResult.h models/Token.cpp models/Token.h models/TokenType.h models/DBCommand.cpp models/DBCommand.h methods/CheckLibaryInterface.h lexUtils/LexerInterface.h Normalizator/NormalizatorInterface.h CoolStealServerApp.cpp CoolStealServerApp.h Router.cpp Router.h PlagiasmChecker.cpp PlagiasmChecker.h methods/Checker.h methods/ShingleChecker.cpp methods/ShingleChecker.h methods/CheckLibary.cpp methods/CheckLibary.h)
 
 # set the POCO paths and libs
 set(POCO_PREFIX      "/home/anton/Programs/CoolSteal/poco-1.7.5") # the directory containing "include" and "lib"
