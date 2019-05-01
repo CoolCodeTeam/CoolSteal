@@ -2,8 +2,17 @@
 // Created by alexey on 26.04.19.
 //
 
+
 #include "ShingleChecker.h"
+
+#include "Poco/MD5Engine.h"
+#include "Poco/DigestStream.h"
+#include "Poco/HMACEngine.h"
+#include "Poco/SHA1Engine.h"
+
 #include <set>
+
+#define hash hash_SHA1
 
 ShingleChecker::ShingleChecker() = default;
 
@@ -23,11 +32,26 @@ int ShingleChecker::check(Program &originalProgram, const Program &comparedProgr
     return coincidence * 100 / originalProgram.getShingleSet().size();      // TODO: прогрессивная формула
 }
 
-std::string ShingleChecker::hash(const std::string &key) {                  // TODO: нормальный хеш
-    int hash = 0;
-    for (int i = 0; i < key.size(); i++)
-        hash = (hash * 127 + key[i]);
-    return std::to_string(hash);
+std::string ShingleChecker::hash_MD5(const std::string &key) {
+
+    Poco::MD5Engine md5;
+    Poco::DigestOutputStream ostr(md5);
+
+    ostr << key;
+    ostr.flush();
+
+    return Poco::DigestEngine::digestToHex(md5.digest());
+}
+
+std::string ShingleChecker::hash_SHA1(const std::string &key) {
+
+    std::string passphrase("anl!sfsd9!_3g2g?f73");
+
+    //HMAC = Hash-based message authentication code
+    Poco::HMACEngine<Poco::SHA1Engine> encoder(passphrase);
+    encoder.update(key);
+
+    return Poco::DigestEngine::digestToHex(encoder.digest());
 }
 
 void ShingleChecker::makeShingleSet(Program &originalProgram) {

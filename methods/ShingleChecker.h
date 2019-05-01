@@ -14,7 +14,8 @@ public:
     int check(Program& originalProgram, const Program& comparedProgram) override;
 
 private:
-    std::string hash(const std::string& key);
+    std::string hash_MD5(const std::string& key);
+    std::string hash_SHA1(const std::string& key);
     void makeShingleSet(Program& originalProgram);
     const int K = 20;
 };
