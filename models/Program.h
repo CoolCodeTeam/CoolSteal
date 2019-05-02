@@ -30,7 +30,7 @@ public:
     const std::set<std::string>&
     getShingleSet() const;
 
-    const std::vector<std::string>&
+    const std::string&
     getTokenSet() const;
 
     long
@@ -55,7 +55,7 @@ public:
     setShingleSet(const std::set<std::string>& shingleSet);
 
     void
-    setTokenSet(const std::vector<std::string>& tokenSet);
+    setTokenSet(const std::string& tokenSet);
 
     void
     setOwnerId(long ownerId);
@@ -70,7 +70,7 @@ private:
     std::string lang;
     std::string sourseCode;
     std::string normalizeCode;
-    std::vector<std::string> tokenSet;
+    std::string tokenSet;
     //Date date
 
     std::set<std::string> shingleSet;

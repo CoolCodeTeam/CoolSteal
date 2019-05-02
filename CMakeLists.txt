@@ -3,10 +3,10 @@ project(CoolSteal)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(CoolSteal main.cpp models/Program.h models/Program.cpp models/PlagiasmResult.cpp models/PlagiasmResult.h models/Token.cpp models/Token.h models/TokenType.h models/DBCommand.cpp models/DBCommand.h methods/CheckLibaryInterface.h lexUtils/LexerInterface.h Normalizator/NormalizatorInterface.h methods/PlagiasmCheckerInterface.h methods/ShingleChecker.cpp methods/ShingleChecker.h)
+add_executable(CoolSteal main.cpp models/Program.h models/Program.cpp models/PlagiasmResult.cpp models/PlagiasmResult.h models/Token.cpp models/Token.h models/TokenType.h models/DBCommand.cpp models/DBCommand.h methods/CheckLibaryInterface.h lexUtils/LexerInterface.h Normalizator/NormalizatorInterface.h methods/PlagiasmCheckerInterface.h methods/ShingleChecker.cpp methods/ShingleChecker.h methods/LevenstainChecker.cpp methods/LevenstainChecker.h)
 
 # set the POCO paths and libs
-set(POCO_PREFIX      "/home/alexey/CLionProjects/CoolSteal/poco-1.7.5") # the directory containing "include" and "lib"
+set(POCO_PREFIX      "${PROJECT_SOURCE_DIR}/poco-1.7.5") # the directory containing "include" and "lib"
 #set(POCO_INCLUDE_DIR "${POCO_PREFIX}/include")
 set(POCO_LIB_DIR     "${POCO_PREFIX}/lib/Linux/x86_64")
 set(POCO_LIBS        "${POCO_LIB_DIR}/libPocoNet.a"
