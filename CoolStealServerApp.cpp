@@ -29,7 +29,7 @@ class PlagiasmHandler : public HTTPRequestHandler {
 
     if (!method.compare(POST)) {
       istream &stream = req.stream();
-      int len = req.getContentLength();
+      streamsize len = req.getContentLength();
 
       char *buffer = new char[len];
       stream.read(buffer, len);
