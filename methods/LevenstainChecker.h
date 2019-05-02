@@ -9,8 +9,9 @@
 class LevenstainChecker: public Checker {
  public:
   int check(Program &originalProgram, const Program &comparedProgram) override;
+  int check(Program& originalProgram, Program& comparedProgram) override;
  private:
-  int getEditDist(std::string str1, std::string str2);
+  int getEditDist(std::string str1, std::string str2,int m,int n);
   int min(int x,int y,int z);
 };
 

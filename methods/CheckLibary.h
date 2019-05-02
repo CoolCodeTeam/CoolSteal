@@ -2,6 +2,7 @@
 // Created by anton on 01.05.19.
 //
 #include "ShingleChecker.h"
+#include "LevenstainChecker.h"
 #ifndef COOLSTEAL_CHECKLIBARY_H
 #define COOLSTEAL_CHECKLIBARY_H
 
@@ -16,6 +17,7 @@ class CheckLibary: public CheckLibaryInterface {
   int getOperatorPlagiasmResult(Program &originalProgram, const Program &comparedProgram) override;
  private:
   ShingleChecker shingleChecker;
+  LevenstainChecker levenstainChecker;
 };
 
 #endif //COOLSTEAL_CHECKLIBARY_H

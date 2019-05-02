@@ -18,7 +18,7 @@ int CheckLibary::getShingleResult(Program &originalProgram, Program &comparedPro
 }
 
 int CheckLibary::getLevenstainResult(Program &originalProgram, const Program &comparedProgram) {
-  return 0;
+  return levenstainChecker.check(originalProgram,comparedProgram);
 }
 int CheckLibary::getOperatorPlagiasmResult(Program &originalProgram, const Program &comparedProgram) {
   return 0;
