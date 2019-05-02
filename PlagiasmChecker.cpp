@@ -26,10 +26,9 @@ PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
 }
 PlagiasmResult PlagiasmChecker::comparePrograms(Program &firstProgram, Program &secondProgram) {
   //return plagiasmLibary.getSimilarity(firstProgram,secondProgram);
-  std::vector<char> testTokenSetFirst(firstProgram.getSourseCode().begin(), firstProgram.getSourseCode().end());
-  std::vector<char> testTokenSetSecond(secondProgram.getSourseCode().begin(), secondProgram.getSourseCode().end());
-  firstProgram.setTokenSet(testTokenSetFirst);
-  secondProgram.setTokenSet(testTokenSetSecond);
+
+  firstProgram.setTokenSet(firstProgram.getSourseCode());
+  secondProgram.setTokenSet(secondProgram.getSourseCode());
   PlagiasmResult result = checkLibary.getSimilaity(firstProgram,secondProgram);
   return result;
 }
