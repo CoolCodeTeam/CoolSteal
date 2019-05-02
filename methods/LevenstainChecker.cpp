@@ -4,12 +4,24 @@
 
 #include "LevenstainChecker.h"
 int LevenstainChecker::check(Program &originalProgram, const Program &comparedProgram) {
-  int levenstainDist = getEditDist(originalProgram.getTokenSet(),originalProgram.getTokenSet());
-  return levenstainDist;
+  int len1= originalProgram.getTokenSet().size();
+  int len2= comparedProgram.getTokenSet().size();
+  float levenstainDist = getEditDist(originalProgram.getTokenSet(),comparedProgram.getTokenSet(),len1,len2);
+  float maxLen = std::max(len1,len2);
+  return 100*(1-levenstainDist/maxLen);
+
 }
-int LevenstainChecker::getEditDist(std::string str1, std::string str2) {
-  unsigned long m = str1.size();
-  unsigned long n = str2.size();
+
+int LevenstainChecker::check(Program &originalProgram, Program &comparedProgram) {
+  int len1= originalProgram.getTokenSet().size();
+  int len2= comparedProgram.getTokenSet().size();
+  float levenstainDist = getEditDist(originalProgram.getTokenSet(),comparedProgram.getTokenSet(),len1,len2);
+  float maxLen = std::max(len1,len2);
+  return 100*(1-levenstainDist/maxLen);
+}
+
+int LevenstainChecker::getEditDist(std::string str1, std::string str2,int m,int n) {
+
 
   int dp[m+1][n+1];
 
@@ -37,7 +49,7 @@ int LevenstainChecker::getEditDist(std::string str1, std::string str2) {
                            dp[i-1][j-1]);
     }
   }
-
+  int mem;
   return dp[m][n];
 
 }

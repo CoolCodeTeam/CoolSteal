@@ -4,11 +4,11 @@
 
 #include "CheckLibary.h"
 PlagiasmResult CheckLibary::getSimilaity(Program &originalProgram, const Program &comparedProgram) {
-  return PlagiasmResult(shingleChecker.check(originalProgram,comparedProgram),0,0);
+  return PlagiasmResult(shingleChecker.check(originalProgram,comparedProgram),levenstainChecker.check(originalProgram,comparedProgram),0);
 }
 
 PlagiasmResult CheckLibary::getSimilaity(Program &originalProgram, Program &comparedProgram) {
-  return PlagiasmResult(shingleChecker.check(originalProgram,comparedProgram),0,0);
+  return PlagiasmResult(shingleChecker.check(originalProgram,comparedProgram),levenstainChecker.check(originalProgram,comparedProgram),0);
 }
 int CheckLibary::getShingleResult(Program &originalProgram, const Program &comparedProgram) {
   return 0;
@@ -18,7 +18,7 @@ int CheckLibary::getShingleResult(Program &originalProgram, Program &comparedPro
 }
 
 int CheckLibary::getLevenstainResult(Program &originalProgram, const Program &comparedProgram) {
-  return 0;
+  return levenstainChecker.check(originalProgram,comparedProgram);
 }
 int CheckLibary::getOperatorPlagiasmResult(Program &originalProgram, const Program &comparedProgram) {
   return 0;
