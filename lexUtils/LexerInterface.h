@@ -9,6 +9,6 @@
 #define COOLSTEALNIGHT_LEXERINTERFACE_H
 class LexerInterFace {
  public:
-  virtual std::vector getTokenSet(const Program &sourseProgram)=0;
+  virtual std::string getTokenSet(const Program &sourseProgram)=0;
 };
 #endif //COOLSTEALNIGHT_LEXERINTERFACE_H
