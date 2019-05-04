@@ -9,12 +9,14 @@
 #include "models/Program.h"
 #include "methods/CheckLibary.h"
 #include "Normalizator/Normalizator.h"
+#include "lexUtils/LexerCpp.h"
 class PlagiasmChecker {
  public:
   PlagiasmResult checkProgramWithDB(Program &program);
   PlagiasmResult comparePrograms(Program &firstProgram, Program &secondProgram);
   CheckLibary checkLibary;
   Normalizator normalizator;
+  LexerCpp lex;
 //   PlagiasmLexer lex;
 //   DBmanager DBmanager;
 };

@@ -2,13 +2,15 @@
 // Created by anton on 19.04.19.
 //
 
-#include <string>
 #include "TokenType.h"
+#include <string>
 #ifndef COOLSTEALNIGHT_TOKEN_H
 #define COOLSTEALNIGHT_TOKEN_H
 
 class Token {
- public:
+public:
+  Token() = default;
+
   Token(TokenType type, const std::string &data);
 
   TokenType getType() const;
@@ -19,9 +21,9 @@ class Token {
 
   void setData(const std::string &data);
 
- private:
+private:
   TokenType type;
   std::string data;
 };
 
-#endif //COOLSTEALNIGHT_TOKEN_H
+#endif // COOLSTEALNIGHT_TOKEN_H

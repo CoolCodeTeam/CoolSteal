@@ -26,10 +26,11 @@ PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
 }
 PlagiasmResult PlagiasmChecker::comparePrograms(Program &firstProgram, Program &secondProgram) {
   //return plagiasmLibary.getSimilarity(firstProgram,secondProgram);
-  firstProgram.setSourseCode(normalizator.normalize(firstProgram));
-  secondProgram.setSourseCode(normalizator.normalize(secondProgram));
-  firstProgram.setTokenSet(firstProgram.getSourseCode());
-  secondProgram.setTokenSet(secondProgram.getSourseCode());// Временно
+
+  firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
+  secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
+  firstProgram.setTokenSet(lex.getTokens(firstProgram));
+  secondProgram.setTokenSet(lex.getTokens(secondProgram));// Временно
   PlagiasmResult result = checkLibary.getSimilaity(firstProgram,secondProgram);
   return result;
 }
