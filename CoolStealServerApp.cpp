@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "rapidjson/stringbuffer.h"
-#include <rapidjson/writer.h>
+#include "rapidjson/writer.h"
 #include "models/Program.h"
 #include "models/PlagiasmResult.h"
 

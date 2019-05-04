@@ -6,11 +6,11 @@
 #define COOLSTEALNIGHT_PLAGIASMRESULT_H
 
 #include <ostream>
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/reader.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/stringbuffer.h"
+#include "../rapidjson/document.h"
+#include "../rapidjson/writer.h"
+#include "../rapidjson/reader.h"
+#include "../rapidjson/stringbuffer.h"
+#include "../rapidjson/stringbuffer.h"
 
 class PlagiasmResult {
  public:
