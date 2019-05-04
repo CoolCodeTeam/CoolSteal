@@ -74,7 +74,7 @@ class PlagiasmHandler : public HTTPRequestHandler {
     } else if (!method.compare(GET)) {
       if (req.getURI().find(GET_METRIC) != std::string::npos) {
         cerr << "GetMetric";
-        //TODO: Узнать зачем это
+        //
       } else {
         cerr << "GetNewId";
         resp.setStatus(HTTPResponse::HTTP_OK);
