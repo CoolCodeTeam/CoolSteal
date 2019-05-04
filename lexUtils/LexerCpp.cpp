@@ -45,7 +45,7 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
   varSet = VariableSet(sourseProgram.getLang());
 
   for (int i = 0; i < normCode.size();) {
-    cout << lastWord << endl;
+    //cout << lastWord << endl;
     string word;
     Token token;
     if (normCode[i] == ' ') {
