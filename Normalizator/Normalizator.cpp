@@ -10,6 +10,7 @@ std::string Normalizator::normalize(const Program &program) {
 }
 NormalizeAlgorithm* Normalizator::configureNormalizer(std::string lang) {
   if (strcmp(lang.c_str(),"CPP") == 0){
-    return new CppNormaizeAlgorithm();
+    return new CppNormaizeAlgorithm();//TODO: Пробел в конце программы всё ломает
   }
+  return new CppNormaizeAlgorithm();
 }
