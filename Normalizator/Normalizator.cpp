@@ -14,3 +14,6 @@ NormalizeAlgorithm* Normalizator::configureNormalizer(std::string lang) {
   }
   return new CppNormaizeAlgorithm();
 }
+Normalizator::~Normalizator() {
+  delete (algorithm);
+}

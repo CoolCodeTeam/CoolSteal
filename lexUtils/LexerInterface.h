@@ -11,5 +11,6 @@ using namespace std;
 class LexerInterface {
 public:
   virtual vector<Token> getTokenSet(const Program &sourseProgram) = 0;
+  virtual std::string getTokens(const Program &sourseProgram)=0;
 };
 #endif // COOLSTEALNIGHT_LEXERINTERFACE_H

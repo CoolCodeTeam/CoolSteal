@@ -8,7 +8,7 @@
 #include "NormalizeAlgorhitm.h"
 class CppNormaizeAlgorithm : public NormalizeAlgorithm{
  public:
-  std::string run(const Program &program);
+  std::string run(const Program &program) override;
 
 };
 

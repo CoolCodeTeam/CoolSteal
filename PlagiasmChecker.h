@@ -14,6 +14,7 @@ class PlagiasmChecker {
  public:
   PlagiasmResult checkProgramWithDB(Program &program);
   PlagiasmResult comparePrograms(Program &firstProgram, Program &secondProgram);
+ private:
   CheckLibary checkLibary;
   Normalizator normalizator;
   LexerCpp lex;

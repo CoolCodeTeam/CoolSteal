@@ -10,6 +10,7 @@
 class Normalizator: public NormalizatorInterface {
  public:
   std::string normalize(const Program &program) override;
+  ~Normalizator();
  private:
    NormalizeAlgorithm* configureNormalizer(std::string lang);
    NormalizeAlgorithm* algorithm;

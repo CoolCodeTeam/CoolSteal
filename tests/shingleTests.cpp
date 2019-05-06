@@ -7,6 +7,7 @@
 #include "../Normalizator/Normalizator.h"
 #include "../lexUtils/LexerCpp.h"
 #include "../methods/CheckLibary.h"
+
 TEST(methods_tests, shingle_test_1) {
 CheckLibary checkLibary;
 Normalizator normalizator;

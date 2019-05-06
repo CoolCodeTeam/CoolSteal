@@ -67,3 +67,4 @@ std::string CppNormaizeAlgorithm::run(const Program &program) {
   return res;
 
 }
+
