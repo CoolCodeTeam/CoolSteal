@@ -33,10 +33,12 @@ class PlagiasmHandler : public HTTPRequestHandler {
 
       char *buffer = new char[len];
       stream.read(buffer, len);
+
       cerr << "Json: " << buffer << endl;
       rapidjson::Document doc;
       doc.Parse(buffer);
       if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
+
 
         Program programmFromReq;
         programmFromReq = programmFromReq.fromJSON(doc);
@@ -118,7 +120,7 @@ int CoolStealServerApp::main(const vector<string> &) {
   pParams->setMaxQueued(100);
   pParams->setMaxThreads(16);
 
-  HTTPServer s(new TodoRequestHandlerFactory, ServerSocket(8000), pParams);
+  HTTPServer s(new TodoRequestHandlerFactory, ServerSocket(8001), pParams);
 
   s.start();
   cerr << "Server started" << endl;

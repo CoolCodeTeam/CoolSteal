@@ -28,6 +28,7 @@ private:
 public:
   LexerCpp() = default;
   vector<Token> getTokenSet(const Program &sourseProgram) override;
+  std::string getTokens(const Program &sourseProgram) override;
 };
 
 #endif // COOLSTEAL_LEXER_H

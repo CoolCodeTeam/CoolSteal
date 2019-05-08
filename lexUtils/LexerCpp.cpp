@@ -34,7 +34,7 @@ bool LexerCpp::isLetter(const char &ch) {
 }
 
 vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
-    tokens.clear();
+  tokens.clear();
   const string normCode = sourseProgram.getNormalizeCode();
   string lastWord;
   string notFullWord;
@@ -94,8 +94,7 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
         } else {
           if (opSet.isToken(notFullWord)) {
             token = Token(OPERATOR, notFullWord);
-          } else
-            assert(opSet.isToken(notFullWord));
+          }
           tokens.push_back(token);
           i++;
           lastToken = '<';
@@ -194,8 +193,7 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
         } else {
           if (opSet.isToken(notFullWord)) {
             token = Token(OPERATOR, notFullWord);
-          } else
-            assert(opSet.isToken(notFullWord));
+          }
           tokens.push_back(token);
           i++;
           lastToken = normCode[i];
@@ -208,3 +206,13 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
   }
   return tokens;
 }
+
+std::string LexerCpp::getTokens(const Program &sourseProgram) {
+  vector<Token> tokens = getTokenSet(sourseProgram);
+  std::string result;
+  for (int i = 0;i<tokens.size();i++){
+    result+= std::to_string(tokens[i].getType());
+  }
+  return result;
+}
+
