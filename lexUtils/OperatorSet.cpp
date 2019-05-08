@@ -2,7 +2,6 @@
 // Created by alexis on 03.05.19.
 //
 #include "OperatorSet.h"
-
 const string cppOperators[] = {
     "+",    "-",   "/",      "%",      "*",     "=",        "==",     "<=",
     ">=",   "!=",  "++",     "--",     ">",     "<",        "!",      "&&",
@@ -19,7 +18,7 @@ const string cppOpComp[]{"+", "-", "/", "%", "*", "=", ">",
                          "<", "!", "|", "&", "^", ":"};
 
 OperatorSet::OperatorSet(const string &language) {
-  if (language == "cpp") {
+  if (language == "CPP") {
     for (int i = 0; i < end(cppOperators) - begin(cppOperators); i++)
       keyWords.insert(cppOperators[i]);
     for (int i = 0; i < end(cppOpComp) - begin(cppOpComp); i++)

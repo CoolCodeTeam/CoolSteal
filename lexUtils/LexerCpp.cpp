@@ -45,7 +45,6 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
   varSet = VariableSet(sourseProgram.getLang());
 
   for (int i = 0; i < normCode.size();) {
-    //cout << lastWord << endl;
     string word;
     Token token;
     if (normCode[i] == ' ') {
@@ -62,14 +61,13 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
       }
       if (cKeyWords.isToken(word)) {
         token = Token(KEYWORD, word);
-      } else
-        assert(cKeyWords.isToken(word));
+      }
       tokens.push_back(token);
       lastWord = word;
       lastToken = normCode[i - 1];
       continue;
     }
-    if (normCode[i] == '<') {
+    if (normCode[i] == '<') { //TODO: ПОФИКСИТЬ
       if (cKeyWords.isDirective(lastWord)) {
         word.push_back(normCode[i]);
         i++;
@@ -94,8 +92,7 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
         } else {
           if (opSet.isToken(notFullWord)) {
             token = Token(OPERATOR, notFullWord);
-          } else
-
+          }
           tokens.push_back(token);
           i++;
           lastToken = '<';
@@ -132,7 +129,7 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
         if (varSet.isToken(lastWord)) {
           lastWord += " ";
           lastWord += word;
-          tokens[tokens.size()].setData(lastWord);
+          tokens[tokens.size() - 1].setData(lastWord);
         } else {
           token = Token(VARIABLE_TYPE, word);
           tokens.push_back(token);
@@ -194,8 +191,7 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
         } else {
           if (opSet.isToken(notFullWord)) {
             token = Token(OPERATOR, notFullWord);
-          } else
-            assert(opSet.isToken(notFullWord));
+          }
           tokens.push_back(token);
           i++;
           lastToken = normCode[i];
@@ -208,11 +204,12 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
   }
   return tokens;
 }
+
 std::string LexerCpp::getTokens(const Program &sourseProgram) {
-  vector<Token> tokens = getTokenSet(sourseProgram);
+  getTokenSet(sourseProgram);
   std::string result;
-  for (int i = 0;i<tokens.size();i++){
-    result+= std::to_string(tokens[i].getType());
+  for (int i = 0; i < tokens.size(); i++) {
+    result += std::to_string(tokens[i].getType());
   }
   return result;
 }

@@ -8,7 +8,8 @@
 class OperatorSet : public TokenSet {
 private:
   set<string> keyWords;
-  set<string> keyWordsComp;
+  set<string> keyWordsComp; // can be compound
+
   string language;
 
 public:

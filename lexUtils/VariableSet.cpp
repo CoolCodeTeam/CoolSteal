@@ -3,6 +3,7 @@
 //
 
 #include "VariableSet.h"
+#include <iostream>
 
 const string cppVars[] = {"bool",     "signed char", "unsigned char", "char",
                           "wchar_t",  "char16_t",    "char32_t",      "signed",
@@ -10,7 +11,7 @@ const string cppVars[] = {"bool",     "signed char", "unsigned char", "char",
                           "float",    "double"};
 
 VariableSet::VariableSet(const string &language) {
-  if (language == "cpp") {
+  if (language == "CPP") {
     for (int i = 0; i < end(cppVars) - begin(cppVars); i++)
       keyWords.insert(cppVars[i]);
   }

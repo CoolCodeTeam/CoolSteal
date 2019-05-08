@@ -2,11 +2,11 @@
 // Created by anton on 05.05.19.
 //
 
-#include <gtest/gtest.h>
-#include "../models/Program.h"
 #include "../Normalizator/Normalizator.h"
 #include "../lexUtils/LexerCpp.h"
 #include "../methods/CheckLibary.h"
+#include "../models/Program.h"
+#include <gtest/gtest.h>
 
 TEST(levenstain_methods_tests, levenstain_test_1) {
   CheckLibary checkLibary;
@@ -60,11 +60,13 @@ TEST(levenstain_methods_tests, levenstain_test_1) {
                         " }\n"
                         " return 0;\n"
                         "}");
+  firstProgram.setLang("CPP");
+  secondProgram.setLang("CPP");
   firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 88);
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 90);
 }
 
 TEST(levenstain_methods_tests, levenstain_test_2) {
@@ -85,11 +87,13 @@ TEST(levenstain_methods_tests, levenstain_test_2) {
                         " int c=a+b;\n"
                         " printf(c);\n"
                         "}");
+  firstProgram.setLang("CPP");
+  secondProgram.setLang("CPP");
   firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 89);
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 88);
 }
 
 TEST(levenstain_methods_tests, levenstain_test_3) {
@@ -142,6 +146,8 @@ TEST(levenstain_methods_tests, levenstain_test_3) {
                         " }\n"
                         " return 0;\n"
                         "}");
+  firstProgram.setLang("cpp");
+  secondProgram.setLang("cpp");
   firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
@@ -217,62 +223,65 @@ TEST(levenstain_methods_tests, levenstain_test_4) {
                         " free(s);\n"
                         " return 0;\n"
                         "}");
+  firstProgram.setLang("CPP");
+  secondProgram.setLang("CPP");
   firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 100);//?????????
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram),
+            100); //?????????
 }
 
 TEST(levenstain_methods_tests, levenstain_test_5) {
   CheckLibary checkLibary;
   Normalizator normalizator;
   LexerCpp lex;
-  Program firstProgram("#include <stdio.h>\n"
-                       "#include <stdlib.h>\n"
-                       "#include <math.h>\n"
-                       "const long long one = 1;\n"
-                       "#define GETBIT(x, pos) ( ((x) & ( one << (pos) )) !=0 )\n"
-                       "#define GETLENGTH(x) ( (x == 0) ? 1 : (int) floorl(log2l(x + 0.5)) )\n"
-                       "int main()\n"
-                       "{\n"
-                       " long long a, b, k;\n"
-                       " scanf(\"%lld%lld%lld\", &a, &b, &k);\n"
-                       " long long sum = 0;\n"
-                       " int i;\n"
-                       " for (i = GETLENGTH(b); i >= 0; i--)\n"
-                       " {\n"
-                       " sum = (sum % k) * 2 + (a % k) * (GETBIT(b, i));\n"
-                       " }\n"
-                       " sum = sum % k;\n"
-                       " printf(\"%lld\\n\", sum);\n"
-                       " return 0;\n"
-                       "}");
-  Program secondProgram("#include <stdio.h>\n"
-                        "#include <stdlib.h>\n"
-                        "#include <math.h>\n"
-                        "const long long one = 1;\n"
-                        "#define GETBIT(x, pos) ( ((x) & ( one << (pos) )) !=0 )\n"
-                        "#define GETLENGTH(x) ( (x == 0) ? 1 : (int) floorl(log2l(x + 0.5)) )\n"
-                        "int main(){\n"
-                        " long a, b, k;\n"
-                        " scanf(\"%ld%ld%ld\", &a, &b, &k);\n"
-                        " long sum = 0;\n"
-                        " int i;\n"
-                        " for (i = GETLENGTH(b); i >= 0; i--) {\n"
-                        " sum = (sum % k) * 2 + (a % k) * (GETBIT(b, i));\n"
-                        " }\n"
-                        " sum = sum % k;\n"
-                        " printf(\"%ld\\n\", sum);\n"
-                        " return 0;\n"
-                        "}");
+  Program firstProgram(
+      "#include <stdio.h>\n"
+      "#include <stdlib.h>\n"
+      "#include <math.h>\n"
+      "const long long one = 1;\n"
+      "#define GETBIT(x, pos) ( ((x) & ( one << (pos) )) !=0 )\n"
+      "#define GETLENGTH(x) ( (x == 0) ? 1 : (int) floorl(log2l(x + 0.5)) )\n"
+      "int main()\n"
+      "{\n"
+      " long long a, b, k;\n"
+      " scanf(\"%lld%lld%lld\", &a, &b, &k);\n"
+      " long long sum = 0;\n"
+      " int i;\n"
+      " for (i = GETLENGTH(b); i >= 0; i--)\n"
+      " {\n"
+      " sum = (sum % k) * 2 + (a % k) * (GETBIT(b, i));\n"
+      " }\n"
+      " sum = sum % k;\n"
+      " printf(\"%lld\\n\", sum);\n"
+      " return 0;\n"
+      "}");
+  Program secondProgram(
+      "#include <stdio.h>\n"
+      "#include <stdlib.h>\n"
+      "#include <math.h>\n"
+      "const long long one = 1;\n"
+      "#define GETBIT(x, pos) ( ((x) & ( one << (pos) )) !=0 )\n"
+      "#define GETLENGTH(x) ( (x == 0) ? 1 : (int) floorl(log2l(x + 0.5)) )\n"
+      "int main(){\n"
+      " long a, b, k;\n"
+      " scanf(\"%ld%ld%ld\", &a, &b, &k);\n"
+      " long sum = 0;\n"
+      " int i;\n"
+      " for (i = GETLENGTH(b); i >= 0; i--) {\n"
+      " sum = (sum % k) * 2 + (a % k) * (GETBIT(b, i));\n"
+      " }\n"
+      " sum = sum % k;\n"
+      " printf(\"%ld\\n\", sum);\n"
+      " return 0;\n"
+      "}");
+  firstProgram.setLang("cpp");
+  secondProgram.setLang("cpp");
   firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 97);
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 98);
 }
-
-
-
-
