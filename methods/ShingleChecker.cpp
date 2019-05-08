@@ -12,6 +12,9 @@
 ShingleChecker::ShingleChecker() = default;
 
 int ShingleChecker::check(Program &originalProgram, const Program &comparedProgram) {
+  if (originalProgram.getTokenSet().size()<K || comparedProgram.getTokenSet().size()<K){
+    return 0;
+  }
   if (originalProgram.getShingleSet().empty()) {
     makeShingleSet(originalProgram);
   }
@@ -67,6 +70,9 @@ void ShingleChecker::makeShingleSet(Program &originalProgram) {
   originalProgram.setShingleSet(shingleSet);
 }
 int ShingleChecker::check(Program &originalProgram, Program &comparedProgram) {
+  if (originalProgram.getTokenSet().size()<K || comparedProgram.getTokenSet().size()<K){
+    return 0;
+  }
   if (originalProgram.getShingleSet().empty()) {
     makeShingleSet(originalProgram);
   }

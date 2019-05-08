@@ -28,15 +28,21 @@ class PlagiasmHandler : public HTTPRequestHandler {
 
 
     if (!method.compare(POST)) {
+      //TODO: Обработка исключений
       istream &stream = req.stream();
       streamsize len = req.getContentLength();
 
-      char *buffer = new char[len];
-      stream.read(buffer, len);
+      char *buffer = new char[len]();
+      stream.read(buffer, len );
 
       cerr << "Json: " << buffer << endl;
       rapidjson::Document doc;
-      doc.Parse(buffer);
+      try{
+        doc.Parse(buffer);
+      }catch (Exception e){
+        cerr<<"mem";
+      }
+
       if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
 
 
