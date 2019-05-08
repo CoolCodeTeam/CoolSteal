@@ -34,7 +34,7 @@ bool LexerCpp::isLetter(const char &ch) {
 }
 
 vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
-
+    tokens.clear();
   const string normCode = sourseProgram.getNormalizeCode();
   string lastWord;
   string notFullWord;
