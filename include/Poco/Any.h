@@ -8,7 +8,7 @@
 // Module:	Any
 //
 // Copyright Kevlin Henney, 2000, 2001, 2002. All rights reserved.
-// Extracted from Boost 1.33.1 lib and adapted for poco: Peter Schojer/AppliedInformatics 2006-02-02
+// Extracted from Boost 1.33.1 libs and adapted for poco: Peter Schojer/AppliedInformatics 2006-02-02
 //
 // SPDX-License-Identifier:	BSL-1.0
 //
