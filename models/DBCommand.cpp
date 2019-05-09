@@ -9,9 +9,9 @@ DBCommand::DBCommand(const std::string &Command) : Command(Command) {}
 DBCommand::DBCommand() {}
 
 const std::string &DBCommand::getCommand() const {
-    return Command;
+  return Command;
 }
 
 void DBCommand::setCommand(const std::string &Command) {
-    DBCommand::Command = Command;
+  DBCommand::Command = Command;
 }

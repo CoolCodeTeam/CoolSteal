@@ -5,76 +5,77 @@
 #include <iostream>
 #include <set>
 #include <vector>
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/reader.h"
+#include "rapidjson/reader.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/stringbuffer.h"
 
 #ifndef COOLSTEALNIGHT_PROGRAMM_H
 #define COOLSTEALNIGHT_PROGRAMM_H
 
-class Program {
+
+class Program{
 public:
-    Program(const std::string& sourseCode);
+    Program(const std::string &sourseCode, long ownerId, const std::string &lang);
 
-    Program();
+    Program(const std::string &sourseCode);
 
-    long
-    getId() const;
+  friend std::ostream &operator<<(std::ostream &os, const Program &program);
 
-    const std::string&
-    getName() const;
+  Program();
 
-    const std::string&
-    getSourseCode() const;
+    long getId() const;
 
-    const std::string&
-    getNormalizeCode() const;
+    const std::string &getName() const;
 
-    const std::set<std::string>&
-    getShingleSet() const;
+    const std::string &getSourseCode() const;
 
-    const std::string&
-    getTokenSet() const;
+    const std::string &getNormalizeCode() const;
 
-    long
-    getOwnerId() const;
+    const std::set<std::string> &getShingleSet() const;
 
-    const std::string&
-    getLang() const;
+    const std::string &getTokenSet() const;
 
-    void
-    setId(long id);
+    long getOwnerId() const;
 
-    void
-    setName(const std::string& name);
+    const std::string &getLang() const;
 
-    void
-    setSourseCode(const std::string& sourseCode);
+    void setId(long id);
 
-    void
-    setNormalizeCode(const std::string& normalizeCode);
+    void setName(const std::string &name);
 
-    void
-    setShingleSet(const std::set<std::string>& shingleSet);
+    void setSourseCode(const std::string &sourseCode);
 
-    void
-    setTokenSet(const std::string& tokenSet);
+    void setNormalizeCode(const std::string &normalizeCode);
 
-    void
-    setOwnerId(long ownerId);
+    void setShingleSet(const std::set<std::string> &shingleSet);
 
-    void
-    setLang(const std::string& lang);
+    void setTokenSet(const std::string &tokenSet);
+
+    void setOwnerId(long ownerId);
+
+    void setLang(const std::string &lang);
+
+    static Program fromJSON(const rapidjson::Value& doc);
+
+  rapidjson::Document toJSON();
+
 
 private:
     long id;
-    long ownerId;
     std::string name;
-    std::string lang;
     std::string sourseCode;
     std::string normalizeCode;
-    std::string tokenSet;
-    //Date date
-
     std::set<std::string> shingleSet;
+    std::string tokenSet;
+    long ownerId;
+    //Date date
+    std::string lang;
 
 };
+
+
 
 #endif //COOLSTEALNIGHT_PROGRAMM_H

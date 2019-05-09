@@ -1,13 +1,10 @@
 #include <iostream>
-#include "methods/CheckLibary.h"
+#include <gtest/gtest.h>
 
-int main() {
-   CheckLibary checker;
-   Program program("IOIOIOIOKKIKIVOIVICVIOIONIONIOCVIONIOIIOKIIOOIIONOVIOIIOIIOOIIONOIIONOOIVIVIOONNNNNNNNONONNNVIONIIICVIONIOIOIIOIIOOKN");
-   program.setTokenSet(program.getSourseCode());
-   Program program1("IOIOIOIOKKIKIVOIVIVIOIONCIONCVIONIOIIOKIIONOOIIOVIOIIOIIOOIIONOIIONOOIIOVIVIOONNNNNNNNONONNNVIONIIICVIONIOIOIIOIIOOKN");
-   program1.setTokenSet(program1.getSourseCode());
-   int result = checker.getLevenstainResult(program,program1);
-   std::cout<<result;
+
+int main(int argc, char** argv) {
+
+    testing::InitGoogleTest(&argc, argv);
+    RUN_ALL_TESTS();
     return 0;
 }
