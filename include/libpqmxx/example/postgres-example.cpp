@@ -1,3 +1,24 @@
+/**
+ * Copyright (c) 2016 Philippe FERDINAND
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ **/
 #include "postgres-connection.h"
 #include "postgres-exceptions.h"
 
@@ -7,11 +28,11 @@ using namespace db::postgres;
 
 int main() {
 
-    Connection cnx;
-    try {
-        cnx.connect("postgresql://postgres:postgres@localhost");
+  Connection cnx;
+  try {
+    cnx.connect("postgresql://ci-test@localhost");
 
-        cnx.execute(R"SQL(
+    cnx.execute(R"SQL(
 
       DROP TABLE IF EXISTS employees;
 
@@ -27,9 +48,9 @@ int main() {
 
     )SQL");
 
-        std::cout << "Table created." << std::endl;
+    std::cout << "Table created." << std::endl;
 
-        int employees = cnx.execute(R"SQL(
+    int64_t employees = cnx.execute(R"SQL(
 
       INSERT INTO employees VALUES
         (10001,'1973-09-02','Georgi','Facello','M','2006-06-26'),
@@ -55,11 +76,11 @@ int main() {
 
     )SQL").count();
 
-        std::cout << employees << " have been added." << std::endl;
+    std::cout << employees << " have been added." << std::endl;
 
-        std::cout << "The three oldest employees are: " << std::endl;
+    std::cout << "The three oldest employees are: " << std::endl;
 
-        auto &oldest = cnx.execute(R"SQL(
+    auto &oldest = cnx.execute(R"SQL(
 
       SELECT first_name, last_name, DATE_PART('year', now()) - DATE_PART('year', birth_date)
         FROM employees
@@ -68,39 +89,39 @@ int main() {
 
     )SQL");
 
-        for (auto &row: oldest) {
-            std::cout << "- " << row.as<std::string>(0) << " " << row.as<std::string>(1)
-                      << ", " << row.as<double>(2) << " years old." << std::endl;
-        }
+    for (auto &row: oldest) {
+      std::cout << "- " << row.as<std::string>(0) << " " << row.as<std::string>(1)
+        << ", " << row.as<double>(2) << " years old." << std::endl;
+    }
 
-        auto &employee = cnx.execute(R"SQL(
+    auto &employee = cnx.execute(R"SQL(
 
       SELECT first_name, last_name, DATE_PART('year', birth_date)
         FROM employees WHERE birth_date = $1::date
 
     )SQL", "1973-11-07");
 
-        std::cout << employee.as<std::string>(0) << " "
-                  << employee.as<std::string>(1) << " is born in "
-                  << employee.as<double>(2) << std::endl;
+    std::cout << employee.as<std::string>(0) << " "
+      << employee.as<std::string>(1) << " is born in "
+      << employee.as<double>(2) << std::endl;
 
-        int deleted = cnx.execute(R"SQL(
+    int64_t deleted = cnx.execute(R"SQL(
 
       DELETE FROM employees
         WHERE DATE_PART('year', birth_date) = $1 AND gender = $2
 
     )SQL", 1973, 'M').count();
 
-        std::cout << deleted << " employees records have been deleted." << std::endl;
+    std::cout << deleted << " employees records have been deleted." << std::endl;
 
-        return 0;
-    }
-    catch (ConnectionException e) {
-        std::cerr << "Oops... Cannot connect...";
-    }
-    catch (ExecutionException e) {
-        std::cerr << "Oops... " << e.what();
-    }
+    return 0;
+  }
+  catch (ConnectionException e) {
+    std::cerr << "Oops... Cannot connect...";
+  }
+  catch (ExecutionException e) {
+    std::cerr << "Oops... " << e.what();
+  }
 
-    return -1;
+  return -1;
 }
