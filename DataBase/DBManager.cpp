@@ -13,6 +13,8 @@ DBManager::DBManager() {
 
     conn.execute(R"SQL(
 
+      DROP TABLE IF EXISTS programs;
+
       CREATE TABLE IF NOT EXISTS programs (
         id              SERIAL         NOT NULL,
 
@@ -52,7 +54,7 @@ int DBManager::getNewId() {        // 0 rows => id = 0
     SELECT MAX(id) as max FROM programs
     )SQL");
 
-  return max.as<int>(0);
+  return max.as<int>(0) + 1;
 }
 
 bool DBManager::addProgram(const Program &program) {
@@ -78,17 +80,17 @@ Program DBManager::getProgram(long id) {
   }
 
   auto &program = conn.execute(R"SQL(
-      SELECT * FROM programs
-               WHERE id = $1
+      SELECT * FROM programs WHERE id = $1;
     )SQL", id);
 
   p.setId(id);
+
   p.setName(program.as<std::string>(1));
   p.setSourseCode(program.as<std::string>(2));
   p.setNormalizeCode(program.as<std::string>(3));
   p.setTokenSet(program.as<std::string>(4));
   p.setShingleSet(postgres_to_shingles(program.as<std::string>(5)));
-  p.setOwnerId(program.as<long>(6));
+  p.setOwnerId(program.as<int>(6));
   //TODO: WHAT ABOUT DATE?
   p.setLang(program.as<std::string>(8));
 

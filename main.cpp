@@ -15,9 +15,29 @@ int StartDataBase();
 int main(int argc, char **argv) {
   DBManager db;
 
+  cout << db.getNewId() << endl;
+
+  Program p;
+  p.setLang("CPP");
+  p.setShingleSet(set<string>{"lol"});
+  p.setOwnerId(1);
+  p.setId(1);
+  p.setName("lol");
+  p.setTokenSet("lol");
+  p.setNormalizeCode("lol");
+  p.setSourseCode("ll");
+
+  db.addProgram(p);
+
+  cout << db.getNewId() << endl;
+
+  cout << db.getProgram(1);
+
+  /*
   CoolStealServerApp app;
   testing::InitGoogleTest(&argc, argv);
   RUN_ALL_TESTS();
   return app.run(argc, argv);
+   */
 
 }
