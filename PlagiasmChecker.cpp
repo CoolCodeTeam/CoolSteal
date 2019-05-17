@@ -6,22 +6,26 @@
 PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
 
 
-//  DBmanager.addProgram(program);
-//  PlagiasmResult maxResult(program.getId(),0,0,0,0);
-//  program.setTokenSet(Lex(program));
-//  for (int i =0;i<program.getId();i++){
-//    Program curProgram = DBmanager.getProgram(i);
-//    if (curProgram.getOwnerId()!=program.getOwnerId()) {
-//      PlagiasmResult curResult = plagiasmLibary.getSimilarity(program, curProgram);
-//      curResult.setId(program.getId());
-//      curResult.setMostSimilarProgrammId(i);
-//      if (curResult.getGeneralSimilarity()>maxResult.getGeneralSimilarity()){
-//        maxResult=curResult;//TODO: =constructor
-//      }
-//    }
-//  }
-//
-//  return maxResult;
+  DBManager dbManager;
+
+  PlagiasmResult maxResult(program.getId(),0,0,0,0);
+  program.setNormalizeCode(normalizator.normalize(program));
+  program.setTokenSet(lex.getTokens(program));
+
+  program.setId(dbManager.getNewId());
+  for (int i =1;i<program.getId();i++){
+    Program curProgram = dbManager.getProgram(i);
+
+      PlagiasmResult curResult = checkLibary.getSimilaity(program, curProgram);
+      curResult.setId(program.getId());
+      curResult.setMostSimilarProgrammId(i);
+      if (curResult.getGeneralSimilarity()>maxResult.getGeneralSimilarity()){
+        maxResult=curResult;//TODO: =constructor
+    }
+  }
+  dbManager.addProgram(program);
+
+  return maxResult;
   return PlagiasmResult(0,0,0,0,0);
 }
 PlagiasmResult PlagiasmChecker::comparePrograms(Program &firstProgram, Program &secondProgram) {

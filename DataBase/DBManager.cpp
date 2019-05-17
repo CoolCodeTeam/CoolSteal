@@ -1,5 +1,6 @@
 #include "DBManager.h"
 #include <algorithm>
+#include <iostream>
 #include <sstream>
 #include <iterator>
 #include <limits>
@@ -13,7 +14,7 @@ DBManager::DBManager() {
 
     conn.execute(R"SQL(
 
-      DROP TABLE IF EXISTS programs;
+
 
       CREATE TABLE IF NOT EXISTS programs (
         id              SERIAL         NOT NULL,
@@ -123,7 +124,9 @@ std::string DBManager::shingles_to_postgres(const std::set<std::string> &S) {
     oss << "\"";
     std::copy(S.begin(), S.end(),
               std::ostream_iterator<std::string>(oss, "\",\""));
-  }
+  } else{
+    return "";
+  }//TODO:????
   std::string t = oss.str();
 
   t[t.size() - 2] = '}';
@@ -134,7 +137,7 @@ std::string DBManager::shingles_to_postgres(const std::set<std::string> &S) {
 std::set<std::string> DBManager::postgres_to_shingles(const std::string &str) {
   int i = 1, j = 2;
   std::set<std::string> S;
-
+  std::cout<<str;
   while(str[i] != '}'){
     if(str[i] == '"'){
       if(i > j){

@@ -64,13 +64,13 @@ public:
 
 
 private:
-    long id;
-    std::string name;
+    long id=0;
+    std::string name="#";//TODO:DELETE
     std::string sourseCode;
     std::string normalizeCode;
     std::set<std::string> shingleSet;
     std::string tokenSet;
-    long ownerId;
+    long ownerId=0;//TODO:DELETE
     //Date date
     std::string lang;
 
