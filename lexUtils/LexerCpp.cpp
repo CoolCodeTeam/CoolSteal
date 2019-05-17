@@ -22,7 +22,7 @@ bool LexerCpp::isCycle(const string &string) {
 
 bool LexerCpp::isCondition(const string &string) {
   if (string == "if" || string == "case")
-    ;
+    return true;
 }
 
 bool LexerCpp::isValue(const char &ch) { return (ch == 39 || ch == 34); }
@@ -35,6 +35,7 @@ bool LexerCpp::isLetter(const char &ch) {
 
 vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
   tokens.clear();
+  operators.clear();
   const string normCode = sourseProgram.getNormalizeCode();
   string lastWord;
   string notFullWord;
@@ -67,7 +68,7 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
       lastToken = normCode[i - 1];
       continue;
     }
-    if (normCode[i] == '<') { //TODO: ПОФИКСИТЬ
+    if (normCode[i] == '<') {
       if (cKeyWords.isDirective(lastWord)) {
         word.push_back(normCode[i]);
         i++;
@@ -81,24 +82,6 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
         token = Token(VALUE_TYPE, word);
         tokens.push_back(token);
         lastWord = word;
-        continue;
-      } else {
-        notFullWord.push_back('<');
-        string a;
-        a.push_back(normCode[i + 1]);
-        if (opSet.isToken(a)) {
-          i++;
-          lastToken = '<';
-        } else {
-          if (opSet.isToken(notFullWord)) {
-            token = Token(OPERATOR, notFullWord);
-          }
-          tokens.push_back(token);
-          i++;
-          lastToken = '<';
-          lastWord = notFullWord;
-          notFullWord = "";
-        }
         continue;
       }
     }
@@ -114,16 +97,19 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
         if (lastCycle != "do") {
           token = Token(CYCLE, word);
           tokens.push_back(token);
+          operators.push_back(token);
         }
         lastWord = word;
         lastCycle = word;
       } else if (isCondition(word)) {
         token = Token(CONDITION, word);
         tokens.push_back(token);
+        operators.push_back(token);
         lastWord = word;
       } else if (opSet.isToken(word)) {
         token = Token(OPERATOR, word);
         tokens.push_back(token);
+        operators.push_back(token);
         lastWord = word;
       } else if (varSet.isToken(word)) {
         if (varSet.isToken(lastWord)) {
@@ -176,26 +162,37 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
     } else {
       word.push_back(normCode[i]);
       if (!opSet.canBeCompound(word)) {
+
         token = Token(OPERATOR, word);
         tokens.push_back(token);
+        operators.push_back(token);
         lastWord = word;
         lastToken = normCode[i];
         i++;
       } else {
-        notFullWord.push_back(normCode[i]);
-        string a;
-        a.push_back(normCode[i + 1]);
-        if (opSet.canBeCompound(a)) {
-          i++;
-          lastToken = normCode[i - 1];
-        } else {
-          if (opSet.isToken(notFullWord)) {
+        string b;
+        b = notFullWord;
+        b.push_back(normCode[i]);
+
+        if (opSet.isToken(b)) {
+          notFullWord.push_back(normCode[i]);
+          string a;
+          a.push_back(normCode[i + 1]);
+          if (!opSet.canBeCompound(a)) {
             token = Token(OPERATOR, notFullWord);
-          }
+            tokens.push_back(token);
+            operators.push_back(token);
+            i++;
+            lastWord = notFullWord;
+            lastToken = normCode[i];
+            notFullWord = "";
+          } else
+            i++;
+        } else {
+          token = Token(OPERATOR, notFullWord);
           tokens.push_back(token);
-          i++;
-          lastToken = normCode[i];
-          lastWord = notFullWord;
+          operators.push_back(token);
+          lastToken = normCode[i - 1];
           notFullWord = "";
         }
       }
@@ -203,6 +200,11 @@ vector<Token> LexerCpp::getTokenSet(const Program &sourseProgram) {
     }
   }
   return tokens;
+}
+
+std::vector<Token> LexerCpp::getOpSet(const Program &sourseProgram) {
+  getTokenSet(sourseProgram);
+  return operators;
 }
 
 std::string LexerCpp::getTokens(const Program &sourseProgram) {

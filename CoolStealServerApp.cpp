@@ -1,9 +1,10 @@
-#include <iostream>
-#include <string>
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
-#include "models/Program.h"
+#include <iostream>
+#include <string>
+
 #include "models/PlagiasmResult.h"
+#include "models/Program.h"
 
 #include "CoolStealServerApp.h"
 
@@ -17,7 +18,7 @@
 #define SEND_Metric "/SendMetric"
 
 class PlagiasmHandler : public HTTPRequestHandler {
- public:
+public:
   void handleRequest(HTTPServerRequest &req, HTTPServerResponse &resp) {
     URI uri(req.getURI());
     string method = req.getMethod();
@@ -26,19 +27,23 @@ class PlagiasmHandler : public HTTPRequestHandler {
     cerr << "Method: " << req.getMethod() << endl;
     cerr << "Content type: " << req.getContentType() << endl;
 
-
     if (!method.compare(POST)) {
+      // TODO: Обработка исключений
       istream &stream = req.stream();
       streamsize len = req.getContentLength();
 
-      char *buffer = new char[len];
+      char *buffer = new char[len]();
       stream.read(buffer, len);
 
       cerr << "Json: " << buffer << endl;
       rapidjson::Document doc;
-      doc.Parse(buffer);
-      if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
+      try {
+        doc.Parse(buffer);
+      } catch (Exception e) {
+        cerr << "mem";
+      }
 
+      if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
 
         Program programmFromReq;
         programmFromReq = programmFromReq.fromJSON(doc);
@@ -49,23 +54,23 @@ class PlagiasmHandler : public HTTPRequestHandler {
         ostream &out = resp.send();
         out << getStringFromJson(result.toJSON());
         out.flush();
-      } else if(req.getURI().find(COMPARE) != std::string::npos){
+      } else if (req.getURI().find(COMPARE) != std::string::npos) {
         Program firstProgramFromReq;
         Program secondProgramFromReq;
-        const rapidjson::Value& a = doc["programs"];
+        const rapidjson::Value &a = doc["programs"];
         assert(a.IsArray());
         firstProgramFromReq = firstProgramFromReq.fromJSON(a[0]);
         secondProgramFromReq = secondProgramFromReq.fromJSON(a[1]);
         cerr << "Send programs to check :" << firstProgramFromReq << endl;
-        cerr <<  secondProgramFromReq << endl;
-        PlagiasmResult result = router.comparePrograms(firstProgramFromReq,secondProgramFromReq);
-        cerr<<"result :"<<getStringFromJson(result.toJSON())<<endl;
+        cerr << secondProgramFromReq << endl;
+        PlagiasmResult result =
+            router.comparePrograms(firstProgramFromReq, secondProgramFromReq);
+        cerr << "result :" << getStringFromJson(result.toJSON()) << endl;
         resp.setStatus(HTTPResponse::HTTP_OK);
         resp.setContentType(APP_JSON);
         ostream &out = resp.send();
         out << getStringFromJson(result.toJSON());
         out.flush();
-
 
       } else {
         PlagiasmResult metricFromReq;
@@ -76,19 +81,19 @@ class PlagiasmHandler : public HTTPRequestHandler {
     } else if (!method.compare(GET)) {
       if (req.getURI().find(GET_METRIC) != std::string::npos) {
         cerr << "GetMetric";
-        //TODO: Узнать зачем это
+        // TODO: Узнать зачем это
       } else {
         cerr << "GetNewId";
         resp.setStatus(HTTPResponse::HTTP_OK);
         resp.setContentType(APP_JSON);
         ostream &out = resp.send();
-        out<<router.getNewId();
+        out << router.getNewId();
         out.flush();
       }
     }
-
   }
- private:
+
+private:
   Router router;
   std::string getStringFromJson(rapidjson::Document doc);
 };
@@ -98,18 +103,19 @@ std::string PlagiasmHandler::getStringFromJson(rapidjson::Document doc) {
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
   doc.Accept(writer);
 
-// Output {"project":"rapidjson","stars":11}
+  // Output {"project":"rapidjson","stars":11}
   std::string s(buffer.GetString(), buffer.GetSize());
   return s;
 }
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <map>
 
 class TodoRequestHandlerFactory : public HTTPRequestHandlerFactory {
- public:
-  virtual HTTPRequestHandler *createRequestHandler(const HTTPServerRequest &request) {
+public:
+  virtual HTTPRequestHandler *
+  createRequestHandler(const HTTPServerRequest &request) {
     return new PlagiasmHandler;
   }
 };
@@ -125,11 +131,10 @@ int CoolStealServerApp::main(const vector<string> &) {
   s.start();
   cerr << "Server started" << endl;
 
-  waitForTerminationRequest();  // wait for CTRL-C or kill
+  waitForTerminationRequest(); // wait for CTRL-C or kill
 
   cerr << "Shutting down..." << endl;
   s.stop();
-
 
   return Application::EXIT_OK;
 }

@@ -22,7 +22,7 @@ PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
 //  }
 //
 //  return maxResult;
-  return PlagiasmResult(0,0,0,0,0);
+  return PlagiasmResult(0,0,0,0,0,0);
 }
 PlagiasmResult PlagiasmChecker::comparePrograms(Program &firstProgram, Program &secondProgram) {
   //return plagiasmLibary.getSimilarity(firstProgram,secondProgram);
@@ -31,6 +31,8 @@ PlagiasmResult PlagiasmChecker::comparePrograms(Program &firstProgram, Program &
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));// Временно
+  firstProgram.setOperatorSet(lex.getOpSet(firstProgram));
+  secondProgram.setOperatorSet(lex.getOpSet(secondProgram));
   PlagiasmResult result = checkLibary.getSimilaity(firstProgram,secondProgram);
   return result;
 }

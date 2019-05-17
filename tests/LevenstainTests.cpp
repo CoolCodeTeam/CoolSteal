@@ -66,7 +66,7 @@ TEST(levenstain_methods_tests, levenstain_test_1) {
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 88);
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 90);
 }
 
 TEST(levenstain_methods_tests, levenstain_test_2) {
@@ -93,7 +93,7 @@ TEST(levenstain_methods_tests, levenstain_test_2) {
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 89);
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 88);
 }
 
 TEST(levenstain_methods_tests, levenstain_test_3) {
@@ -277,11 +277,11 @@ TEST(levenstain_methods_tests, levenstain_test_5) {
       " printf(\"%ld\\n\", sum);\n"
       " return 0;\n"
       "}");
-  firstProgram.setLang("cpp");
-  secondProgram.setLang("cpp");
+  firstProgram.setLang("CPP");
+  secondProgram.setLang("CPP");
   firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 97);
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 100);
 }

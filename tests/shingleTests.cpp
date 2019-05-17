@@ -53,7 +53,7 @@ TEST(methods_tests, shingle_test_2) {
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getShingleResult(firstProgram, secondProgram), 57);
+  ASSERT_EQ(checkLibary.getShingleResult(firstProgram, secondProgram), 51);
 }
 
 TEST(methods_tests, shingle_test_3) {
@@ -120,7 +120,7 @@ TEST(methods_tests, shingle_test_3) {
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getShingleResult(firstProgram, secondProgram), 86);
+  ASSERT_EQ(checkLibary.getShingleResult(firstProgram, secondProgram), 100);
 }
 
 TEST(methods_tests, shingle_test_4) {
@@ -174,7 +174,7 @@ TEST(methods_tests, shingle_test_4) {
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getShingleResult(firstProgram, secondProgram), 66);
+  ASSERT_EQ(checkLibary.getShingleResult(firstProgram, secondProgram), 100);
 }
 TEST(methods_tests, shingle_test_5) {
   CheckLibary checkLibary;
