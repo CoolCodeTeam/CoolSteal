@@ -20,6 +20,9 @@ int OperatorPlagiasmChecker::check(Program &originalProgram,
 
 int OperatorPlagiasmChecker::quantityComparison(vector<Token> &firstOp,
                                                 vector<Token> &secondOp) {
+  if (firstOp.size()==0 || secondOp.size()==0){
+    return 0;
+  }
   map<string, int> firstMap = getMap(firstOp);
   map<string, int> secondMap = getMap(secondOp);
   int count = 0;

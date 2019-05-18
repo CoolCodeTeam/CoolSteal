@@ -26,6 +26,9 @@ int OpSequencePlagiasmChecker::check(Program &originalProgram,
 
 int OpSequencePlagiasmChecker::sequenceComparison(vector<Token> &firstOp,
                                                   vector<Token> &secondOp) {
+  if (firstOp.size()==0 || secondOp.size()==0){
+    return 0;
+  }
   int max = 0;
   int diff = firstOp.size() - secondOp.size();
   for (int i = 0; i <= diff; i++) {

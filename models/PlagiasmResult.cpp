@@ -51,9 +51,10 @@ PlagiasmResult PlagiasmResult::fromJson(const rapidjson::Value &doc) {
   int uId = doc["id"].GetInt();
   int shingleResult = doc["result"]["m1"].GetInt();
   int levenstainResult = doc["result"]["m2"].GetInt();
-  int operatorResult = doc["result"]["m1"].GetInt();
+  int operatorResult = doc["result"]["m3"].GetInt();
+  int opSequenceResult = doc["result"]["m4"].GetInt(); // TODO:что-то написать
   int mostSimilarProgramUid = doc["mostSimilarProgram"].GetInt();
-  int opSequenceResult = 0; // TODO:что-то написать
+
 
   return PlagiasmResult(uId, shingleResult, levenstainResult, operatorResult,
                         opSequenceResult, mostSimilarProgramUid);

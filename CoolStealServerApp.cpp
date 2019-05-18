@@ -1,5 +1,6 @@
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
+#include "rapidjson/schema.h"
 #include <iostream>
 #include <string>
 
@@ -32,18 +33,19 @@ public:
       istream &stream = req.stream();
       streamsize len = req.getContentLength();
 
-      char *buffer = new char[len]();
+      char *buffer = new char[len];
       stream.read(buffer, len);
 
       cerr << "Json: " << buffer << endl;
       rapidjson::Document doc;
-      try {
-        doc.Parse(buffer);
-      } catch (Exception e) {
-        cerr << "mem";
-      }
-
-      if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
+      int i = strlen(buffer)-1;
+      if (doc.Parse(buffer).HasParseError()){
+        resp.setStatus(HTTPResponse::HTTP_OK);
+        resp.setContentType(APP_JSON);
+        ostream &out = resp.send();
+        out << "400";
+        out.flush();
+      } else if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
 
         Program programmFromReq;
         programmFromReq = programmFromReq.fromJSON(doc);
@@ -57,27 +59,29 @@ public:
       } else if (req.getURI().find(COMPARE) != std::string::npos) {
         Program firstProgramFromReq;
         Program secondProgramFromReq;
-        const rapidjson::Value &a = doc["programs"];
-        assert(a.IsArray());
-        firstProgramFromReq = firstProgramFromReq.fromJSON(a[0]);
-        secondProgramFromReq = secondProgramFromReq.fromJSON(a[1]);
-        cerr << "Send programs to check :" << firstProgramFromReq << endl;
-        cerr << secondProgramFromReq << endl;
-        PlagiasmResult result =
-            router.comparePrograms(firstProgramFromReq, secondProgramFromReq);
-        cerr << "result :" << getStringFromJson(result.toJSON()) << endl;
-        resp.setStatus(HTTPResponse::HTTP_OK);
-        resp.setContentType(APP_JSON);
-        ostream &out = resp.send();
-        out << getStringFromJson(result.toJSON());
-        out.flush();
+          const rapidjson::Value &a = doc["programs"];
+          assert(a.IsArray());
+          firstProgramFromReq = firstProgramFromReq.fromJSON(a[0]);
+          secondProgramFromReq = secondProgramFromReq.fromJSON(a[1]);
+          cerr << "Send programs to check :" << firstProgramFromReq << endl;
+          cerr << secondProgramFromReq << endl;
+          PlagiasmResult result =
+              router.comparePrograms(firstProgramFromReq, secondProgramFromReq);
+          cerr << "result :" << getStringFromJson(result.toJSON()) << endl;
+          resp.setStatus(HTTPResponse::HTTP_OK);
+          resp.setContentType(APP_JSON);
+          ostream &out = resp.send();
+          out << getStringFromJson(result.toJSON());
+          out.flush();
+
+
 
       } else {
         PlagiasmResult metricFromReq;
         metricFromReq = metricFromReq.fromJson(doc);
         cerr << "SendMetric :" << metricFromReq << endl;
       }
-
+      delete[](buffer);
     } else if (!method.compare(GET)) {
       if (req.getURI().find(GET_METRIC) != std::string::npos) {
         cerr << "GetMetric";
