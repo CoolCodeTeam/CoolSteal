@@ -4,6 +4,7 @@
 
 #include "../models/Program.h"
 #include "Checker.h"
+#include "../models/Token.h"
 #include <map>
 
 #ifndef COOLSTEAL_OPERATORPLAGIASMCHECKER_H

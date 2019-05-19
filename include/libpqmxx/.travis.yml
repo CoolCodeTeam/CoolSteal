@@ -1,0 +1,90 @@
+sudo: required
+dist: precise
+language: cpp
+
+env:
+  global:
+  - LANG="en_US.UTF-8"
+
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        postgresql: "9.4"
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+            - postgresql-server-dev-all
+      env: COMPILER=g++-4.9
+    - compiler: gcc
+      addons:
+        postgresql: "9.4"
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+            - postgresql-server-dev-all
+      env: COMPILER=g++-5
+    - compiler: clang
+      addons:
+        postgresql: "9.4"
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+          packages:
+            - clang-3.6
+            - postgresql-server-dev-all
+      env: COMPILER=clang++-3.6
+    - compiler: clang
+      addons:
+        postgresql: "9.4"
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+          packages:
+            - clang-3.7
+            - postgresql-server-dev-all
+      env: COMPILER=clang++-3.7
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  # install cmake
+  - CMAKE_VERSION="3.5.2"
+  - CMAKE_INSTALL_DIR=${HOME}/cmake-${CMAKE_VERSION}
+  - mkdir ${CMAKE_INSTALL_DIR}/
+  - wget --no-check-certificate "http://cmake.org/files/v3.5/cmake-${CMAKE_VERSION}-Linux-x86_64.sh"
+  - chmod +x cmake-${CMAKE_VERSION}-Linux-x86_64.sh
+  - ./cmake-${CMAKE_VERSION}-Linux-x86_64.sh --prefix=${CMAKE_INSTALL_DIR} --skip-license
+  - export PATH=${CMAKE_INSTALL_DIR}/bin:$PATH
+  # install gtest
+  - GTEST_VERSION="1.7.0"
+  - GTEST_INSTALL_DIR=${HOME}/gtest-${GTEST_VERSION}
+  - mkdir --parents ${GTEST_INSTALL_DIR}/lib
+  - wget --no-check-certificate "https://github.com/google/googletest/archive/release-${GTEST_VERSION}.tar.gz"
+  - tar -xzf release-${GTEST_VERSION}.tar.gz
+  - cd googletest-release-${GTEST_VERSION}
+  - cmake -DBUILD_SHARED_LIBS=OFF .
+  - make
+  - cp -r include/ ${GTEST_INSTALL_DIR}
+  - cp *.a ${GTEST_INSTALL_DIR}/lib
+  - cd ..
+  # verify installed versions
+  - which cmake
+  - cmake --version
+
+before_script:
+  - psql -c 'create user "ci-test";' -U postgres
+  - psql -c 'create database "ci-test" OWNER "ci-test" ENCODING '"'"'UTF8'"'"';' -U postgres
+
+script:
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER -DCMAKE_BUILD_TYPE=Release -DGTEST_ROOT=${GTEST_INSTALL_DIR} .. && make
+  - ./postgres-test

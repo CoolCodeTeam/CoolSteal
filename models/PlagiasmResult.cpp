@@ -3,6 +3,7 @@
 //
 
 #include "PlagiasmResult.h"
+#define EMPTY -1
 
 PlagiasmResult::PlagiasmResult(int uId, int shingleResult, int levenstainResult,
                                int operatorPlagiasmResult,
@@ -43,6 +44,11 @@ rapidjson::Document PlagiasmResult::toJSON() {
 
   json_val.SetUint64(opSequencePlagiasmResult);
   doc.AddMember("opSequencePlagiasm", json_val, allocator);
+
+  if (mostSimilarProgrammId!=EMPTY) {
+    json_val.SetUint64(mostSimilarProgrammId);
+    doc.AddMember("mostSimilarProgramId", json_val, allocator);
+  }
 
   return doc;
 }
@@ -95,7 +101,7 @@ float PlagiasmResult::getGeneralSimilarity() {
 PlagiasmResult::PlagiasmResult(int shingleResult, int levenstainResult,
                                int operatorPlagiasmResult,
                                int opSequencePlagiasmResult)
-    : id(0), mostSimilarProgrammId(0), shingleResult(shingleResult),
+    : id(EMPTY), mostSimilarProgrammId(EMPTY), shingleResult(shingleResult),
       levenstainResult(levenstainResult),
       operatorPlagiasmResult(operatorPlagiasmResult),
       opSequencePlagiasmResult(opSequencePlagiasmResult) {}

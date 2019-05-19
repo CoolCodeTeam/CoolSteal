@@ -10,9 +10,7 @@ int LevenstainChecker::check(Program &originalProgram, const Program &comparedPr
   float maxLen = std::max(len1,len2);
   return 100*(1-levenstainDist/maxLen);
 
-}
-
-int LevenstainChecker::check(Program &originalProgram, Program &comparedProgram) {
+}int LevenstainChecker::check(Program &originalProgram, Program &comparedProgram) {
   int len1= originalProgram.getTokenSet().size();
   int len2= comparedProgram.getTokenSet().size();
   float levenstainDist = getEditDist(originalProgram.getTokenSet(),comparedProgram.getTokenSet(),len1,len2);

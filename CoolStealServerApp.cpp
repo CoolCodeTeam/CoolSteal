@@ -39,6 +39,7 @@ public:
       cerr << "Json: " << buffer << endl;
       rapidjson::Document doc;
       int i = strlen(buffer)-1;
+
       if (doc.Parse(buffer).HasParseError()){
         resp.setStatus(HTTPResponse::HTTP_OK);
         resp.setContentType(APP_JSON);

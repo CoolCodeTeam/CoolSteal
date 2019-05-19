@@ -2,6 +2,7 @@
 // Created by anton on 19.04.19.
 //
 #include "Program.h"
+#include "Token.h"
 #include <iostream>
 
 Program::Program(const std::string &sourseCode) : sourseCode(sourseCode) {}

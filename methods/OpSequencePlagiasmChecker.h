@@ -3,6 +3,7 @@
 //
 #include "../models/Program.h"
 #include "Checker.h"
+#include "../models/Token.h"
 #ifndef COOLSTEAL_OPSEQUENCEPLAGIASMCHECKER_H
 #define COOLSTEAL_OPSEQUENCEPLAGIASMCHECKER_H
 using namespace std;

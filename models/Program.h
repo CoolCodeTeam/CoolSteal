@@ -67,13 +67,13 @@ public:
 
 private:
   long id;
-  std::string name;
+  std::string name="#";
   std::string sourseCode;
   std::string normalizeCode;
   std::set<std::string> shingleSet;
   std::string tokenSet;
   std::vector<Token> operatorSet;
-  long ownerId;
+  long ownerId=0;
   // Date date
   std::string lang;
 };
