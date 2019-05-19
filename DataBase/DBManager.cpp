@@ -135,14 +135,18 @@ std::string DBManager::shingles_to_postgres(const std::set<std::string> &S) {
 }
 
 std::set<std::string> DBManager::postgres_to_shingles(const std::string &str) {
+
+  if(str.size() < 3)
+    return std::set<std::string>{""};
+
   int i = 1, j = 2;
   std::set<std::string> S;
   std::cout<<str;
-  while(str[i] != '}'){
+  while(i != str.size() - 1){
     if(str[i] == '"'){
       if(i > j){
         S.insert(str.substr(j, i));
-        j = i + 3;
+        j = i + 4;
       }
     }
     i++;
