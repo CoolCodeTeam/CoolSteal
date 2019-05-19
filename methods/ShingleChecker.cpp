@@ -8,6 +8,7 @@
 #include <set>
 
 #define hash hash_SHA1
+#define EMPTY "EMTY_SHINGLE"
 
 ShingleChecker::ShingleChecker() = default;
 
@@ -57,6 +58,11 @@ std::string ShingleChecker::hash_SHA1(const std::string &key) {
 
 void ShingleChecker::makeShingleSet(Program &originalProgram) {
   std::set<std::string> shingleSet;
+  if (originalProgram.getNormalizeCode().size()<K){
+    shingleSet.insert(EMPTY);
+    originalProgram.setShingleSet(shingleSet);
+    return;
+  }
 
   for (auto iter = originalProgram.getTokenSet().begin();
        iter <= originalProgram.getTokenSet().end() - K; iter++) {
@@ -72,15 +78,17 @@ void ShingleChecker::makeShingleSet(Program &originalProgram) {
   originalProgram.setShingleSet(shingleSet);
 }
 int ShingleChecker::check(Program &originalProgram, Program &comparedProgram) {
-  if (originalProgram.getTokenSet().size() < K ||
-      comparedProgram.getTokenSet().size() < K) {
-    return 0;
-  }
+
   if (originalProgram.getShingleSet().empty()) {
     makeShingleSet(originalProgram);
   }
   if (comparedProgram.getShingleSet().empty()) {
     makeShingleSet(comparedProgram);
+  }
+
+  if (originalProgram.getTokenSet().size() < K ||
+      comparedProgram.getTokenSet().size() < K) {
+    return 0;
   }
 
   int coincidence = 0;

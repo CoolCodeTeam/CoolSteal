@@ -14,6 +14,7 @@ class Router {
   Router();
   PlagiasmResult checkProgram(Program &program);
   int getNewId();
+  Program getProgramById(int id);
   PlagiasmResult comparePrograms(Program &firstProgram, Program &secondProgram);
  private:
    DBManager dbManager;

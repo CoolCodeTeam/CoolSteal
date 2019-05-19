@@ -16,6 +16,7 @@
 #define GET_METRIC "/GetMetric"
 #define SEND_PROGRAM "/SendProgram"
 #define COMPARE "/Compare"
+#define GET_PROGRAM "/GetProgram"
 #define SEND_Metric "/SendMetric"
 
 class PlagiasmHandler : public HTTPRequestHandler {
@@ -39,12 +40,15 @@ public:
       cerr << "Json: " << buffer << endl;
       rapidjson::Document doc;
       int i = strlen(buffer)-1;
-
+      for (i = len;buffer[i]!='}';i--){
+        buffer[i]='\0';
+      }
+      cerr << "Json clear: " << buffer << endl;
       if (doc.Parse(buffer).HasParseError()){
-        resp.setStatus(HTTPResponse::HTTP_OK);
+        resp.setStatus(HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
         resp.setContentType(APP_JSON);
         ostream &out = resp.send();
-        out << "400";
+        out << "500";
         out.flush();
       } else if (req.getURI().find(SEND_PROGRAM) != std::string::npos) {
 
@@ -55,26 +59,38 @@ public:
         resp.setStatus(HTTPResponse::HTTP_OK);
         resp.setContentType(APP_JSON);
         ostream &out = resp.send();
-        out << getStringFromJson(result.toJSON());
+        out << getStringFromJson(result.toJSON())<<endl;
+        //out << getStringFromJson(router.getProgramById(result.getMostSimilarProgrammId()).toJSON());
         out.flush();
       } else if (req.getURI().find(COMPARE) != std::string::npos) {
         Program firstProgramFromReq;
         Program secondProgramFromReq;
-          const rapidjson::Value &a = doc["programs"];
-          assert(a.IsArray());
-          firstProgramFromReq = firstProgramFromReq.fromJSON(a[0]);
-          secondProgramFromReq = secondProgramFromReq.fromJSON(a[1]);
-          cerr << "Send programs to check :" << firstProgramFromReq << endl;
-          cerr << secondProgramFromReq << endl;
-          PlagiasmResult result =
-              router.comparePrograms(firstProgramFromReq, secondProgramFromReq);
-          cerr << "result :" << getStringFromJson(result.toJSON()) << endl;
-          resp.setStatus(HTTPResponse::HTTP_OK);
-          resp.setContentType(APP_JSON);
-          ostream &out = resp.send();
-          out << getStringFromJson(result.toJSON());
-          out.flush();
+        const rapidjson::Value &a = doc["programs"];
+        assert(a.IsArray());
+        firstProgramFromReq = firstProgramFromReq.fromJSON(a[0]);
+        secondProgramFromReq = secondProgramFromReq.fromJSON(a[1]);
+        cerr << "Send programs to check :" << firstProgramFromReq << endl;
+        cerr << secondProgramFromReq << endl;
+        PlagiasmResult result =
+            router.comparePrograms(firstProgramFromReq, secondProgramFromReq);
+        cerr << "result :" << getStringFromJson(result.toJSON()) << endl;
+        resp.setStatus(HTTPResponse::HTTP_OK);
+        resp.setContentType(APP_JSON);
+        ostream &out = resp.send();
+        out << getStringFromJson(result.toJSON());
+        out.flush();
+      } else if(req.getURI().find(GET_PROGRAM) != std::string::npos){
 
+        const rapidjson::Value &a = doc["id"];
+        assert(a.IsInt());
+        int id = a.GetInt();
+        Program resultProgram = router.getProgramById(id);
+        cerr << "Program :" << getStringFromJson(resultProgram.toJSON()) << endl;
+        resp.setStatus(HTTPResponse::HTTP_OK);
+        resp.setContentType(APP_JSON);
+        ostream &out = resp.send();
+        out << getStringFromJson(resultProgram.toJSON());
+        out.flush();
 
 
       } else {
@@ -100,6 +116,7 @@ public:
 
 private:
   Router router;
+
   std::string getStringFromJson(rapidjson::Document doc);
 };
 

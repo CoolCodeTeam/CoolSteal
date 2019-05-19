@@ -15,3 +15,6 @@ int Router::getNewId() {
 PlagiasmResult Router::comparePrograms(Program &firstProgram, Program &secondProgram) {
   return checker.comparePrograms(firstProgram,secondProgram);
 }
+Program Router::getProgramById(int id) {
+  return dbManager.getProgram(id);
+}

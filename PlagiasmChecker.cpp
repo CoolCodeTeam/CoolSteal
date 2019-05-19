@@ -11,11 +11,14 @@ PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
   PlagiasmResult maxResult(program.getId(),0,0,0,0,0);
   program.setNormalizeCode(normalizator.normalize(program));
   program.setTokenSet(lex.getTokens(program));
+  program.setOperatorSet(lex.getOpSet(program));
 
   program.setId(dbManager.getNewId());
   for (int i =1;i<program.getId();i++){
     Program curProgram = dbManager.getProgram(i);
-
+    if (curProgram.getOperatorSet().size()==0){
+      curProgram.setOperatorSet(lex.getOpSet(curProgram));
+    }
     PlagiasmResult curResult = checkLibary.getSimilaity(program, curProgram);
     curResult.setId(program.getId());
     curResult.setMostSimilarProgrammId(i);
