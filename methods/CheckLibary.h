@@ -19,8 +19,7 @@ public:
                               Program &comparedProgram) override;
   int getShingleResult(Program &originalProgram,
                        const Program &comparedProgram) override;
-  int getShingleResult(Program &originalProgram,
-                       Program &comparedProgram) override;
+
   int getLevenstainResult(Program &originalProgram,
                           const Program &comparedProgram) override;
   int getOpSequencePlagiasmResult(Program &originalProgram,
@@ -28,6 +27,8 @@ public:
   int getOperatorPlagiasmResult(Program &originalProgram,
                                 Program &comparedProgram) override;
 
+  int getShingleResult(Program &originalProgram,
+                       Program &comparedProgram) override;
 private:
   ShingleChecker shingleChecker;
   LevenstainChecker levenstainChecker;

@@ -16,13 +16,32 @@ PlagiasmResult CheckLibary::getSimilaity(Program &originalProgram,
 
 PlagiasmResult CheckLibary::getSimilaity(Program &originalProgram,
                                          Program &comparedProgram) {
-//  auto shingle = async(launch::async,[]{shingleChecker.check(originalProgram,comparedProgram);});
-//  shingle.get();
-  return PlagiasmResult(
-      shingleChecker.check(originalProgram, comparedProgram),
-      levenstainChecker.check(originalProgram, comparedProgram),
-      operatorPlagiasmChecker.check(originalProgram, comparedProgram),
-      opSequencePlagiasmChecker.check(originalProgram, comparedProgram));
+  //MultiThread is here!!
+  auto shingleFutureResult(std::async([this](Program &originalProgram,
+                                             Program &comparedProgram){
+    return getShingleResult(originalProgram,comparedProgram);
+    },
+    std::ref(originalProgram),std::ref(comparedProgram)));
+  auto levenstainFutureResult(std::async([this](Program &originalProgram,
+                                             Program &comparedProgram){
+                                        return getLevenstainResult(originalProgram,comparedProgram);
+                                      },
+                                      std::ref(originalProgram),std::ref(comparedProgram)));
+  auto operatorFutureResult(std::async([this](Program &originalProgram,
+                                             Program &comparedProgram){
+                                        return getOperatorPlagiasmResult(originalProgram,comparedProgram);
+                                      },
+                                      std::ref(originalProgram),std::ref(comparedProgram)));
+  auto opSeqFutureResult(std::async([this](Program &originalProgram,
+                                             Program &comparedProgram){
+                                        return getOpSequencePlagiasmResult(originalProgram,comparedProgram);
+                                      },
+                                      std::ref(originalProgram),std::ref(comparedProgram)));
+  int shingleResult = shingleFutureResult.get();
+  int levenstainResult = levenstainFutureResult.get();
+  int operatorResult = operatorFutureResult.get();
+  int opSeqResult = opSeqFutureResult.get();
+  return PlagiasmResult(shingleResult,levenstainResult,operatorResult,opSeqResult);
 }
 int CheckLibary::getShingleResult(Program &originalProgram,
                                   const Program &comparedProgram) {
