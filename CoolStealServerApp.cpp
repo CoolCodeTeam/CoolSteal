@@ -134,7 +134,7 @@ std::string PlagiasmHandler::getStringFromJson(rapidjson::Document doc) {
 #include <iostream>
 #include <map>
 
-class TodoRequestHandlerFactory : public HTTPRequestHandlerFactory {
+class PlagiasmRequestServerFactory : public HTTPRequestHandlerFactory {
 public:
   virtual HTTPRequestHandler *
   createRequestHandler(const HTTPServerRequest &request) {
@@ -148,7 +148,7 @@ int CoolStealServerApp::main(const vector<string> &) {
   pParams->setMaxQueued(100);
   pParams->setMaxThreads(16);
 
-  HTTPServer s(new TodoRequestHandlerFactory, ServerSocket(8001), pParams);
+  HTTPServer s(new PlagiasmRequestServerFactory, ServerSocket(8001), pParams);
 
   s.start();
   cerr << "Server started" << endl;

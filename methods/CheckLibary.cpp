@@ -2,6 +2,8 @@
 // Created by anton on 01.05.19.
 //
 
+#include <thread>
+#include <future>
 #include "CheckLibary.h"
 PlagiasmResult CheckLibary::getSimilaity(Program &originalProgram,
                                          const Program &comparedProgram) {
@@ -14,6 +16,8 @@ PlagiasmResult CheckLibary::getSimilaity(Program &originalProgram,
 
 PlagiasmResult CheckLibary::getSimilaity(Program &originalProgram,
                                          Program &comparedProgram) {
+//  auto shingle = async(launch::async,[]{shingleChecker.check(originalProgram,comparedProgram);});
+//  shingle.get();
   return PlagiasmResult(
       shingleChecker.check(originalProgram, comparedProgram),
       levenstainChecker.check(originalProgram, comparedProgram),
