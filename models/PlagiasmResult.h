@@ -33,6 +33,8 @@ public:
   void setOperatorPlagiasmResult(int operatorPlagiasmResult);
   void setOpSequencePlagiasmResult(int opSequencePlagiasmResult);
   int getMostSimilarProgrammId() const;
+  int getGeneralResult() const;
+  void setGeneralResult(int generalResult);
   void setMostSimilarProgrammId(int mostSimilarProgrammId);
   rapidjson::Document toJSON();
   static PlagiasmResult fromJson(const rapidjson::Value &doc);
@@ -42,12 +44,14 @@ public:
                                   const PlagiasmResult &result);
 
 private:
+  void calculateGeneralResult();
   int id;
   int shingleResult;
   int levenstainResult;
   int operatorPlagiasmResult;
   int opSequencePlagiasmResult;
   int mostSimilarProgrammId;
+  int generalResult;
 };
 
 #endif // COOLSTEALNIGHT_PLAGIASMRESULT_H

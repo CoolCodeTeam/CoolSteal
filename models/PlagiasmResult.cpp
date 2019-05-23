@@ -12,7 +12,19 @@ PlagiasmResult::PlagiasmResult(int uId, int shingleResult, int levenstainResult,
     : id(uId), shingleResult(shingleResult), levenstainResult(levenstainResult),
       operatorPlagiasmResult(operatorPlagiasmResult),
       opSequencePlagiasmResult(opSequencePlagiasmResult),
-      mostSimilarProgrammId(mostSimilarProgrammId) {}
+      mostSimilarProgrammId(mostSimilarProgrammId) {
+  calculateGeneralResult();
+}
+
+PlagiasmResult::PlagiasmResult(int shingleResult, int levenstainResult,
+                               int operatorPlagiasmResult,
+                               int opSequencePlagiasmResult)
+    : id(EMPTY), mostSimilarProgrammId(EMPTY), shingleResult(shingleResult),
+      levenstainResult(levenstainResult),
+      operatorPlagiasmResult(operatorPlagiasmResult),
+      opSequencePlagiasmResult(opSequencePlagiasmResult) {
+  calculateGeneralResult();
+}
 
 int PlagiasmResult::getShingleResult() const { return shingleResult; }
 
@@ -50,6 +62,9 @@ rapidjson::Document PlagiasmResult::toJSON() {
     doc.AddMember("mostSimilarProgramId", json_val, allocator);
   }
 
+  json_val.SetUint64(generalResult);
+  doc.AddMember("generalResult",json_val,allocator);
+
   return doc;
 }
 PlagiasmResult::PlagiasmResult() { ; }
@@ -64,6 +79,7 @@ PlagiasmResult PlagiasmResult::fromJson(const rapidjson::Value &doc) {
 
   return PlagiasmResult(uId, shingleResult, levenstainResult, operatorResult,
                         opSequenceResult, mostSimilarProgramUid);
+
 }
 int PlagiasmResult::getId() const { return id; }
 void PlagiasmResult::setId(int id) { PlagiasmResult::id = id; }
@@ -90,18 +106,34 @@ std::ostream &operator<<(std::ostream &os, const PlagiasmResult &result) {
   os << "id: " << result.id << " shingleResult: " << result.shingleResult
      << " levenstainResult: " << result.levenstainResult
      << " operatorPlagiasmResult: " << result.operatorPlagiasmResult
+     << " opSeqResult: " << result.opSequencePlagiasmResult
+     << " General result: " << result.generalResult
      << " mostSimilarProgrammId: " << result.mostSimilarProgrammId;
   return os;
 }
 float PlagiasmResult::getGeneralSimilarity() {
-  return (shingleResult + levenstainResult + operatorPlagiasmResult +
-          opSequencePlagiasmResult) /
-         4;
+  return generalResult;
 }
-PlagiasmResult::PlagiasmResult(int shingleResult, int levenstainResult,
-                               int operatorPlagiasmResult,
-                               int opSequencePlagiasmResult)
-    : id(EMPTY), mostSimilarProgrammId(EMPTY), shingleResult(shingleResult),
-      levenstainResult(levenstainResult),
-      operatorPlagiasmResult(operatorPlagiasmResult),
-      opSequencePlagiasmResult(opSequencePlagiasmResult) {}
+
+int PlagiasmResult::getGeneralResult() const {
+  return generalResult;
+}
+void PlagiasmResult::setGeneralResult(int generalResult) {
+  PlagiasmResult::generalResult = generalResult;
+}
+
+void PlagiasmResult::calculateGeneralResult() {
+  //case 1
+  if (levenstainResult>60 && (operatorPlagiasmResult+opSequencePlagiasmResult+shingleResult)/3.0<30){
+    generalResult=(operatorPlagiasmResult+opSequencePlagiasmResult+shingleResult)/3.0;
+    return;
+  }
+
+  //case 2
+  if (opSequencePlagiasmResult<30 && (operatorPlagiasmResult+levenstainResult+shingleResult)/3.0>30){
+    generalResult=(operatorPlagiasmResult+levenstainResult+shingleResult)/3.0;
+    return;
+  }
+  //default
+  generalResult=(operatorPlagiasmResult+opSequencePlagiasmResult+shingleResult+levenstainResult)/4.0;
+}
