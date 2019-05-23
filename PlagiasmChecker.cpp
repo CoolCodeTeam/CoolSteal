@@ -4,14 +4,24 @@
 
 #include "PlagiasmChecker.h"
 #include "DataBase/DBManager.h"
+#include <thread>
+#include <future>
 PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
-
   DBManager dbManager;
+  auto futureProgramNormalizeCode(std::async([this](Program &Program){
+    return normalizator.normalize(Program);
+  },std::ref(program)));
+  auto futureProgramTokenSet(std::async([this](Program &program){
+    return lex.getTokens(program);
+  },std::ref(program)));
+  auto futureProgramOperatorSet(std::async([this](Program &program){
+    return lex.getOpSet(program);
+  },std::ref(program)));
 
   PlagiasmResult maxResult(program.getId(),0,0,0,0,0);
-  program.setNormalizeCode(normalizator.normalize(program));
-  program.setTokenSet(lex.getTokens(program));
-  program.setOperatorSet(lex.getOpSet(program));
+  program.setNormalizeCode(futureProgramNormalizeCode.get());
+  program.setTokenSet(futureProgramTokenSet.get());
+  program.setOperatorSet(futureProgramOperatorSet.get());
 
   program.setId(dbManager.getNewId());
   for (int i =1;i<program.getId();i++){
@@ -23,7 +33,7 @@ PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
     curResult.setId(program.getId());
     curResult.setMostSimilarProgrammId(i);
     if (curResult.getGeneralSimilarity()>maxResult.getGeneralSimilarity()){
-      maxResult=curResult;//TODO: =constructor
+      maxResult=curResult;
     }
   }
   dbManager.addProgram(program);
@@ -32,14 +42,31 @@ PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
 
 }
 PlagiasmResult PlagiasmChecker::comparePrograms(Program &firstProgram, Program &secondProgram) {
-  //return plagiasmLibary.getSimilarity(firstProgram,secondProgram);
+  auto futureFirstProgramNormalizeCode(std::async([this](Program &firstProgram){
+    return normalizator.normalize(firstProgram);
+  },std::ref(firstProgram)));
+  auto futureSecondProgramNormalizeCode(std::async([this](Program &secondProgram){
+    return normalizator.normalize(secondProgram);
+  },std::ref(secondProgram)));
+  auto futureFirstProgramTokenSet(std::async([this](Program &firstProgram){
+    return lex.getTokens(firstProgram);
+  },std::ref(firstProgram)));
+  auto futureSecondProgramTokenSet(std::async([this](Program &secondProgram){
+    return lex.getTokens(secondProgram);
+  },std::ref(secondProgram)));
+  auto futureFirstProgramOperatorSet(std::async([this](Program &firstProgram){
+    return lex.getOpSet(firstProgram);
+  },std::ref(firstProgram)));
+  auto futureSecondProgramOperatorSet(std::async([this](Program &secondProgram){
+    return lex.getOpSet(secondProgram);
+  },std::ref(secondProgram)));
 
-  firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
-  secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
-  firstProgram.setTokenSet(lex.getTokens(firstProgram));
-  secondProgram.setTokenSet(lex.getTokens(secondProgram));// Временно
-  firstProgram.setOperatorSet(lex.getOpSet(firstProgram));
-  secondProgram.setOperatorSet(lex.getOpSet(secondProgram));
+  firstProgram.setNormalizeCode(futureFirstProgramNormalizeCode.get());
+  secondProgram.setNormalizeCode(futureSecondProgramNormalizeCode.get());
+  firstProgram.setTokenSet(futureFirstProgramTokenSet.get());
+  secondProgram.setTokenSet(futureSecondProgramTokenSet.get());
+  firstProgram.setOperatorSet(futureFirstProgramOperatorSet.get());
+  secondProgram.setOperatorSet(futureSecondProgramOperatorSet.get());
   PlagiasmResult result = checkLibary.getSimilaity(firstProgram,secondProgram);
   return result;
 }
