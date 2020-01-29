@@ -65,6 +65,7 @@ public:
 
   rapidjson::Document toJSON();
 
+
 private:
   long id;
   std::string name="#";

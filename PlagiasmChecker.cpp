@@ -40,6 +40,26 @@ PlagiasmResult PlagiasmChecker::checkProgramWithDB(Program &program) {
 
   return maxResult;
 
+  DBManager dbManager;
+
+  PlagiasmResult maxResult(program.getId(),0,0,0,0);
+  program.setNormalizeCode(normalizator.normalize(program));
+  program.setTokenSet(lex.getTokens(program));
+
+  program.setId(dbManager.getNewId());
+  for (int i =1;i<program.getId();i++){
+    Program curProgram = dbManager.getProgram(i);
+
+      PlagiasmResult curResult = checkLibary.getSimilaity(program, curProgram);
+      curResult.setId(program.getId());
+      curResult.setMostSimilarProgrammId(i);
+      if (curResult.getGeneralSimilarity()>maxResult.getGeneralSimilarity()){
+        maxResult=curResult;//TODO: =constructor
+    }
+  }
+  dbManager.addProgram(program);
+
+  return maxResult;
 }
 PlagiasmResult PlagiasmChecker::comparePrograms(Program &firstProgram, Program &secondProgram) {
   auto futureFirstProgramNormalizeCode(std::async([this](Program &firstProgram){

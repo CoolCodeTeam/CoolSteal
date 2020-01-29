@@ -10,6 +10,7 @@
 #include "methods/CheckLibary.h"
 #include "Normalizator/Normalizator.h"
 #include "lexUtils/LexerCpp.h"
+#include "DataBase/DBManager.h"
 class PlagiasmChecker {
  public:
   PlagiasmResult checkProgramWithDB(Program &program);
