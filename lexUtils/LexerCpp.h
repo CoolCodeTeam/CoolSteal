@@ -8,12 +8,13 @@
 #include "LexerInterface.h"
 #include "OperatorSet.h"
 #include "VariableSet.h"
-#ifndef COOLSTEAL_LEXER_H
-#define COOLSTEAL_LEXER_H
+#ifndef COOLSTEAL_LEXERCPP_H
+#define COOLSTEAL_LEXERCPP_H
 
 class LexerCpp : public LexerInterface {
 private:
   vector<Token> tokens;
+  vector<Token> operators;
   set<string> cycleSet;
   CKeyWords cKeyWords;
   OperatorSet opSet;
@@ -28,7 +29,8 @@ private:
 public:
   LexerCpp() = default;
   vector<Token> getTokenSet(const Program &sourseProgram) override;
+  vector<Token> getOpSet(const Program &sourseProgram) override;
   std::string getTokens(const Program &sourseProgram) override;
 };
 
-#endif // COOLSTEAL_LEXER_H
+#endif // COOLSTEAL_LEXERCPP_H

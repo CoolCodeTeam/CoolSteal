@@ -277,11 +277,11 @@ TEST(levenstain_methods_tests, levenstain_test_5) {
       " printf(\"%ld\\n\", sum);\n"
       " return 0;\n"
       "}");
-  firstProgram.setLang("cpp");
-  secondProgram.setLang("cpp");
+  firstProgram.setLang("CPP");
+  secondProgram.setLang("CPP");
   firstProgram.setNormalizeCode(normalizator.normalize(firstProgram));
   secondProgram.setNormalizeCode(normalizator.normalize(secondProgram));
   firstProgram.setTokenSet(lex.getTokens(firstProgram));
   secondProgram.setTokenSet(lex.getTokens(secondProgram));
-  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 98);
+  ASSERT_EQ(checkLibary.getLevenstainResult(firstProgram, secondProgram), 100);
 }

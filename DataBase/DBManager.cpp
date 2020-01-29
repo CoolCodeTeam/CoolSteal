@@ -141,7 +141,7 @@ std::set<std::string> DBManager::postgres_to_shingles(const std::string &str) {
 
   int i = 1, j = 2;
   std::set<std::string> S;
-  std::cout<<str;
+
   while(i != str.size() - 1){
     if(str[i] == '"'){
       if(i > j){

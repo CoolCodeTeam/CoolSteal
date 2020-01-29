@@ -5,44 +5,53 @@
 #ifndef COOLSTEALNIGHT_PLAGIASMRESULT_H
 #define COOLSTEALNIGHT_PLAGIASMRESULT_H
 
-#include <ostream>
 #include "rapidjson/document.h"
-#include "rapidjson/writer.h"
 #include "rapidjson/reader.h"
 #include "rapidjson/stringbuffer.h"
-#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
+#include <ostream>
 
 class PlagiasmResult {
- public:
+public:
   PlagiasmResult();
-  PlagiasmResult(int Uid,int shingleResult, int levenstainResult, int operatorPlagiasmResult, int mostSimilarProgrammId);
-  PlagiasmResult(int shingleResult, int levenstainResult, int operatorPlagiasmResult);
+  PlagiasmResult(int Uid, int shingleResult, int levenstainResult,
+                 int operatorPlagiasmResult, int opSequencePlagiasmResult,
+                 int mostSimilarProgrammId);
+  PlagiasmResult(int shingleResult, int levenstainResult,
+                 int operatorPlagiasmResult, int opSequencePlagiasmResult);
 
   int getShingleResult() const;
 
   int getLevenstainResult() const;
 
   int getOperatorPlagiasmResult() const;
+  int getOpSequencePlagiasmResult() const;
   int getId() const;
   void setId(int id);
   void setShingleResult(int shingleResult);
   void setLevenstainResult(int levenstainResult);
   void setOperatorPlagiasmResult(int operatorPlagiasmResult);
+  void setOpSequencePlagiasmResult(int opSequencePlagiasmResult);
   int getMostSimilarProgrammId() const;
+  int getGeneralResult() const;
+  void setGeneralResult(int generalResult);
   void setMostSimilarProgrammId(int mostSimilarProgrammId);
   rapidjson::Document toJSON();
-  static PlagiasmResult fromJson(const rapidjson::Value& doc);
+  static PlagiasmResult fromJson(const rapidjson::Value &doc);
   float getGeneralSimilarity();
 
-  friend std::ostream &operator<<(std::ostream &os, const PlagiasmResult &result);
+  friend std::ostream &operator<<(std::ostream &os,
+                                  const PlagiasmResult &result);
 
- private:
+private:
+  void calculateGeneralResult();
   int id;
   int shingleResult;
   int levenstainResult;
   int operatorPlagiasmResult;
+  int opSequencePlagiasmResult;
   int mostSimilarProgrammId;
-
+  int generalResult;
 };
 
-#endif //COOLSTEALNIGHT_PLAGIASMRESULT_H
+#endif // COOLSTEALNIGHT_PLAGIASMRESULT_H

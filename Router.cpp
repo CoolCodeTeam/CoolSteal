@@ -10,8 +10,11 @@ PlagiasmResult Router::checkProgram(Program &program) {
   return checker.checkProgramWithDB(program);
 }
 int Router::getNewId() {
-  return -1;
+  return dbManager.getNewId();
 }
 PlagiasmResult Router::comparePrograms(Program &firstProgram, Program &secondProgram) {
   return checker.comparePrograms(firstProgram,secondProgram);
+}
+Program Router::getProgramById(int id) {
+  return dbManager.getProgram(id);
 }
